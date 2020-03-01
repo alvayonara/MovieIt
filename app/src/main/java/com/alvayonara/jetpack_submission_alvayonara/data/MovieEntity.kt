@@ -9,5 +9,6 @@ class MovieEntity(
     var overview: String,
     var releaseDate: String,
     var runtime: String,
-    var status: String
+    var status: String,
+    var averageVote: String
 )

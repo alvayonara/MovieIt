@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">Movie Catalogue</string>
+    <string name="app_name">MovieCatalogue</string>
 
     <string name="tab_text_1">Movies</string>
     <string name="tab_text_2">Tv Shows</string>
+    <string name="runtime">%1$sm</string>
+    <string name="runtimes">Runtime</string>
+    <string name="original_language">Original Language</string>
+    <string name="status">Status</string>
+    <string name="original_title">Original Title</string>
 </resources>

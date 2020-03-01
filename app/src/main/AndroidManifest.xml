@@ -14,6 +14,12 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ui.tvshow.DetailTvShowActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.movie.DetailMovieActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.home.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

@@ -14,11 +14,13 @@ class HomeSectionPageAdapter(
     fragmentManager: FragmentManager
 ) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    @StringRes
-    private val tabTitles = intArrayOf(
-        R.string.tab_text_1,
-        R.string.tab_text_2
-    )
+    companion object {
+        @StringRes
+        private val tabTitles = intArrayOf(
+            R.string.tab_text_1,
+            R.string.tab_text_2
+        )
+    }
 
     override fun getItem(position: Int): Fragment {
         var fragment: Fragment? = null
