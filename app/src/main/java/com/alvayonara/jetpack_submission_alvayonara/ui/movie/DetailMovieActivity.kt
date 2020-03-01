@@ -1,8 +1,8 @@
 package com.alvayonara.jetpack_submission_alvayonara.ui.movie
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.jetpack_submission_alvayonara.DateConvert
 import com.alvayonara.jetpack_submission_alvayonara.R
@@ -11,7 +11,6 @@ import com.alvayonara.jetpack_submission_alvayonara.data.MovieEntity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_movie.*
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_home.toolbar
 
 class DetailMovieActivity : AppCompatActivity() {

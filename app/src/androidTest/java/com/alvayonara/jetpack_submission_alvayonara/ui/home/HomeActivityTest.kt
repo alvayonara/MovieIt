@@ -88,7 +88,7 @@ class HomeActivityTest {
     }
 
     @Test
-    fun loadDetailTvShow(){
+    fun loadDetailTvShow() {
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))
         onView(withText(R.string.tab_text_2)).perform(click())
         onView(withId(R.id.rv_tv_show)).perform(

@@ -1,6 +1,5 @@
 package com.alvayonara.jetpack_submission_alvayonara.utils
 
-import android.os.Build
 import com.alvayonara.jetpack_submission_alvayonara.BuildConfig
 import com.alvayonara.jetpack_submission_alvayonara.data.MovieEntity
 import com.alvayonara.jetpack_submission_alvayonara.data.TvShowEntity

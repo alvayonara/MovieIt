@@ -5,19 +5,19 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class DetailTvShowViewModelTest{
+class DetailTvShowViewModelTest {
     private lateinit var viewModel: DetailTvShowViewModel
     private val dummyTvShow = DataDummy.generateDummyTvShows()[0]
     private val tvShowId = dummyTvShow.tvShowId
 
     @Before
-    fun setUp(){
+    fun setUp() {
         viewModel = DetailTvShowViewModel()
         viewModel.setSelectedTvShow(tvShowId)
     }
 
     @Test
-    fun getTvShow(){
+    fun getTvShow() {
         viewModel.setSelectedTvShow(dummyTvShow.tvShowId)
         val tvShowEntity = viewModel.getTvShow()
 
