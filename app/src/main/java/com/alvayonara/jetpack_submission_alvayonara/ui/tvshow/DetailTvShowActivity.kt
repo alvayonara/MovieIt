@@ -3,11 +3,15 @@ package com.alvayonara.jetpack_submission_alvayonara.ui.tvshow
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.alvayonara.jetpack_submission_alvayonara.DateConvert
+import com.alvayonara.jetpack_submission_alvayonara.utils.DateConvert
 import com.alvayonara.jetpack_submission_alvayonara.R
-import com.alvayonara.jetpack_submission_alvayonara.ToolbarConfig
+import com.alvayonara.jetpack_submission_alvayonara.utils.ToolbarConfig
 import com.alvayonara.jetpack_submission_alvayonara.data.TvShowEntity
+import com.alvayonara.jetpack_submission_alvayonara.utils.invisible
+import com.alvayonara.jetpack_submission_alvayonara.utils.visible
+import com.alvayonara.jetpack_submission_alvayonara.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_tv_show.*
@@ -25,9 +29,10 @@ class DetailTvShowActivity : AppCompatActivity() {
 
         initToolbar()
 
+        val factory = ViewModelFactory.getInstance()
         val viewModel = ViewModelProvider(
             this,
-            ViewModelProvider.NewInstanceFactory()
+            factory
         )[DetailTvShowViewModel::class.java]
 
         val extras = intent.extras
@@ -36,7 +41,13 @@ class DetailTvShowActivity : AppCompatActivity() {
             if (tvShowId != null) {
                 viewModel.setSelectedTvShow(tvShowId)
 
-                populateTvShow(viewModel.getTvShow())
+                progress_bar_detail_tv_show.visible()
+
+                viewModel.getTvShow().observe(this, Observer { tvShow ->
+                    progress_bar_detail_tv_show.invisible()
+
+                    populateTvShow(tvShow)
+                })
             }
         }
     }
@@ -55,10 +66,10 @@ class DetailTvShowActivity : AppCompatActivity() {
         vote_average_tv_show_detail.text = tvShow.averageVote
         release_date_tv_show_detail.text = DateConvert.convertDate(tvShow.releaseDate)
         overview_tv_show_detail.text = tvShow.overview
-        status_tv_show_detail.text = tvShow.status
+        popularity_tv_show_detail.text = tvShow.popularity
         original_title_tv_show_detail.text = tvShow.originalTitle
         original_language_tv_show_detail.text = tvShow.originalLanguage
-        runtime_tv_show_detail.text = getString(R.string.runtime, tvShow.runtime)
+        vote_count_tv_show_detail.text = tvShow.voteCount
 
         Glide.with(this)
             .load(tvShow.posterPath)

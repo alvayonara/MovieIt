@@ -141,30 +141,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="25dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/status"
-                    android:textColor="#4a4a4a"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/status_tv_show_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:textColor="#9b9b9b"
-                    android:textSize="14sp"
-                    tools:text="Released" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="25dp"
                 android:layout_marginEnd="15dp"
                 android:orientation="vertical">
 
@@ -182,7 +158,7 @@
                     android:layout_marginTop="5dp"
                     android:textColor="#9b9b9b"
                     android:textSize="14sp"
-                    tools:text="Original Movie Title" />
+                    tools:text="Original Tv Show Title" />
             </LinearLayout>
 
             <LinearLayout
@@ -219,20 +195,58 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/runtimes"
+                    android:text="@string/popularity"
                     android:textColor="#4a4a4a"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/runtime_tv_show_detail"
+                    android:id="@+id/popularity_tv_show_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:textColor="#9b9b9b"
                     android:textSize="14sp"
-                    tools:text="90m" />
+                    tools:text="xxx" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vote_count"
+                    android:textColor="#4a4a4a"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/vote_count_tv_show_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#9b9b9b"
+                    android:textSize="14sp"
+                    tools:text="xxx" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progress_bar_detail_tv_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:indeterminateTint="#37474F"
+            android:indeterminateTintMode="src_atop" />
+    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

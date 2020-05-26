@@ -1,10 +1,11 @@
 package com.alvayonara.jetpack_submission_alvayonara.ui.tvshow
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.alvayonara.jetpack_submission_alvayonara.data.TvShowEntity
-import com.alvayonara.jetpack_submission_alvayonara.utils.DataDummy
+import com.alvayonara.jetpack_submission_alvayonara.data.source.CatalogueRepository
 
-class TvShowViewModel : ViewModel() {
+class TvShowViewModel(private val catalogueRepository: CatalogueRepository) : ViewModel() {
 
-    fun getTvShows(): List<TvShowEntity> = DataDummy.generateDummyTvShows()
+    fun getTvShows(): LiveData<List<TvShowEntity>> = catalogueRepository.getAllTvShows()
 }

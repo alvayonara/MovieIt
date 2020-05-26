@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.alvayonara.jetpack_submission_alvayonara.BuildConfig
 import com.alvayonara.jetpack_submission_alvayonara.R
 import com.alvayonara.jetpack_submission_alvayonara.data.TvShowEntity
 import com.alvayonara.jetpack_submission_alvayonara.ui.tvshow.DetailTvShowActivity.Companion.EXTRA_TV_SHOW_ID

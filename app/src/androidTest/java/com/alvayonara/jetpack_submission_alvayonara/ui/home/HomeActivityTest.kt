@@ -7,9 +7,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
-import com.alvayonara.jetpack_submission_alvayonara.DateConvert
+import com.alvayonara.jetpack_submission_alvayonara.utils.DateConvert
 import com.alvayonara.jetpack_submission_alvayonara.R
-import com.alvayonara.jetpack_submission_alvayonara.utils.DataDummy
 import org.junit.Rule
 import org.junit.Test
 

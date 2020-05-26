@@ -1,4 +1,4 @@
-package com.alvayonara.jetpack_submission_alvayonara
+package com.alvayonara.jetpack_submission_alvayonara.utils
 
 import android.app.Activity
 import android.os.Build

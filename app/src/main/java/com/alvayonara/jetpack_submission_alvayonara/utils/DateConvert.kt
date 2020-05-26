@@ -1,4 +1,4 @@
-package com.alvayonara.jetpack_submission_alvayonara
+package com.alvayonara.jetpack_submission_alvayonara.utils
 
 import java.text.ParseException
 import java.text.SimpleDateFormat

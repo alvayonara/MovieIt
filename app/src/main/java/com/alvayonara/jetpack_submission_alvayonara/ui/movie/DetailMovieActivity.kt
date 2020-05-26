@@ -3,11 +3,15 @@ package com.alvayonara.jetpack_submission_alvayonara.ui.movie
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.alvayonara.jetpack_submission_alvayonara.DateConvert
+import com.alvayonara.jetpack_submission_alvayonara.utils.DateConvert
 import com.alvayonara.jetpack_submission_alvayonara.R
-import com.alvayonara.jetpack_submission_alvayonara.ToolbarConfig
+import com.alvayonara.jetpack_submission_alvayonara.utils.ToolbarConfig
 import com.alvayonara.jetpack_submission_alvayonara.data.MovieEntity
+import com.alvayonara.jetpack_submission_alvayonara.utils.invisible
+import com.alvayonara.jetpack_submission_alvayonara.utils.visible
+import com.alvayonara.jetpack_submission_alvayonara.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_movie.*
@@ -25,9 +29,10 @@ class DetailMovieActivity : AppCompatActivity() {
 
         initToolbar()
 
+        val factory = ViewModelFactory.getInstance()
         val viewModel = ViewModelProvider(
             this,
-            ViewModelProvider.NewInstanceFactory()
+            factory
         )[DetailMovieViewModel::class.java]
 
         val extras = intent.extras
@@ -36,7 +41,13 @@ class DetailMovieActivity : AppCompatActivity() {
             if (movieId != null) {
                 viewModel.setSelectedMovie(movieId)
 
-                populateMovie(viewModel.getMovie())
+                progress_bar_detail_movie.visible()
+
+                viewModel.getMovie().observe(this, Observer { movie ->
+                    progress_bar_detail_movie.invisible()
+
+                    populateMovie(movie)
+                })
             }
         }
     }
@@ -55,10 +66,10 @@ class DetailMovieActivity : AppCompatActivity() {
         vote_average_movie_detail.text = movie.averageVote
         release_date_movie_detail.text = DateConvert.convertDate(movie.releaseDate)
         overview_movie_detail.text = movie.overview
-        status_movie_detail.text = movie.status
+        popularity_movie_detail.text = movie.popularity
         original_title_movie_detail.text = movie.originalTitle
         original_language_movie_detail.text = movie.originalLanguage
-        runtime_movie_detail.text = getString(R.string.runtime, movie.runtime)
+        vote_count_movie_detail.text = movie.voteCount
 
         Glide.with(this)
             .load(movie.posterPath)

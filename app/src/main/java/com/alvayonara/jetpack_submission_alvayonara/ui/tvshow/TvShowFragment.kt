@@ -5,11 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.alvayonara.jetpack_submission_alvayonara.R
 import com.alvayonara.jetpack_submission_alvayonara.data.TvShowEntity
+import com.alvayonara.jetpack_submission_alvayonara.utils.invisible
+import com.alvayonara.jetpack_submission_alvayonara.utils.visible
+import com.alvayonara.jetpack_submission_alvayonara.viewmodel.ViewModelFactory
+import com.androidnetworking.AndroidNetworking
 import kotlinx.android.synthetic.main.fragment_tv_show.*
 import org.jetbrains.anko.support.v4.ctx
 
@@ -23,23 +28,33 @@ class TvShowFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
+
+            val factory = ViewModelFactory.getInstance()
             val viewModel = ViewModelProvider(
                 this,
-                ViewModelProvider.NewInstanceFactory()
+                factory
             )[TvShowViewModel::class.java]
 
-            val tvShows = viewModel.getTvShows()
-
-            initView(tvShows)
+            initView(viewModel)
         }
     }
 
-    private fun initView(tvShows: List<TvShowEntity>) {
+    private fun initView(viewModel: TvShowViewModel) {
         val tvShowAdapter = TvShowAdapter()
-        tvShowAdapter.setTvShows(tvShows)
 
-        rv_tv_show.layoutManager = LinearLayoutManager(ctx)
-        rv_tv_show.setHasFixedSize(true)
-        rv_tv_show.adapter = tvShowAdapter
+        progress_bar_tv_show.visible()
+
+        viewModel.getTvShows().observe(this, Observer { tvShows ->
+            progress_bar_tv_show.invisible()
+
+            tvShowAdapter.setTvShows(tvShows)
+            tvShowAdapter.notifyDataSetChanged()
+        })
+
+        with(rv_tv_show) {
+            layoutManager = LinearLayoutManager(ctx)
+            setHasFixedSize(true)
+            adapter = tvShowAdapter
+        }
     }
 }

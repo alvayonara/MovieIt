@@ -42,4 +42,6 @@ ext {
     glideVersion = '4.10.0'
 
     anko_version = '0.10.8'
+
+    androidNetworking = '1.0.2'
 }

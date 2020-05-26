@@ -3,7 +3,7 @@ package com.alvayonara.jetpack_submission_alvayonara.ui.home
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.alvayonara.jetpack_submission_alvayonara.R
-import com.alvayonara.jetpack_submission_alvayonara.ToolbarConfig
+import com.alvayonara.jetpack_submission_alvayonara.utils.ToolbarConfig
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {

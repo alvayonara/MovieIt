@@ -1,6 +1,5 @@
 package com.alvayonara.jetpack_submission_alvayonara.ui.tvshow
 
-import com.alvayonara.jetpack_submission_alvayonara.utils.DataDummy
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
