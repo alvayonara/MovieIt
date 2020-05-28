@@ -5,6 +5,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.alvayonara.jetpack_submission_alvayonara.BuildConfig
 import com.alvayonara.jetpack_submission_alvayonara.utils.DateConvert
 import com.alvayonara.jetpack_submission_alvayonara.R
 import com.alvayonara.jetpack_submission_alvayonara.utils.ToolbarConfig
@@ -72,7 +73,7 @@ class DetailTvShowActivity : AppCompatActivity() {
         vote_count_tv_show_detail.text = tvShow.voteCount
 
         Glide.with(this)
-            .load(tvShow.posterPath)
+            .load(BuildConfig.BASE_URL_TMDB_POSTER + tvShow.posterPath)
             .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
             .into(poster_tv_show_detail)
     }

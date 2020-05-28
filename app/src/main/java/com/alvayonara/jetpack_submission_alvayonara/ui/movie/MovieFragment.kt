@@ -1,7 +1,6 @@
 package com.alvayonara.jetpack_submission_alvayonara.ui.movie
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +9,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.jetpack_submission_alvayonara.R
-import com.alvayonara.jetpack_submission_alvayonara.data.MovieEntity
 import com.alvayonara.jetpack_submission_alvayonara.utils.invisible
 import com.alvayonara.jetpack_submission_alvayonara.utils.visible
 import com.alvayonara.jetpack_submission_alvayonara.viewmodel.ViewModelFactory
-import com.androidnetworking.AndroidNetworking
 import kotlinx.android.synthetic.main.fragment_movie.*
 import org.jetbrains.anko.support.v4.ctx
 

@@ -1,34 +1,63 @@
 package com.alvayonara.jetpack_submission_alvayonara.ui.movie
 
-import org.junit.Assert.*
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.alvayonara.jetpack_submission_alvayonara.data.MovieEntity
+import com.alvayonara.jetpack_submission_alvayonara.data.source.CatalogueRepository
+import com.alvayonara.jetpack_submission_alvayonara.utils.FakeDataDummy
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
+import org.mockito.junit.MockitoJUnitRunner
 
+@RunWith(MockitoJUnitRunner::class)
 class DetailMovieViewModelTest {
     private lateinit var viewModel: DetailMovieViewModel
-    private val dummyMovie = DataDummy.generateDummyMovies()[0]
+    private val dummyMovie = FakeDataDummy.generateRemoteDummyMovies()[0]
     private val movieId = dummyMovie.movieId
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Mock
+    private lateinit var catalogueRepository: CatalogueRepository
+
+    @Mock
+    private lateinit var movieObserver: Observer<MovieEntity>
 
     @Before
     fun setUp() {
-        viewModel = DetailMovieViewModel()
-        viewModel.setSelectedMovie(movieId)
+        viewModel = DetailMovieViewModel(catalogueRepository)
+        viewModel.setSelectedMovie(movieId!!)
     }
 
     @Test
     fun getMovie() {
-        viewModel.setSelectedMovie(dummyMovie.movieId)
-        val movieEntity = viewModel.getMovie()
+        val movie = MutableLiveData<MovieEntity>()
+        movie.value = dummyMovie
 
+        `when`(catalogueRepository.getMovieById(movieId!!)).thenReturn(movie)
+        val movieEntity = viewModel.getMovie().value as MovieEntity
+        verify(catalogueRepository).getMovieById(movieId)
         assertNotNull(movieEntity)
         assertEquals(dummyMovie.movieId, movieEntity.movieId)
         assertEquals(dummyMovie.title, movieEntity.title)
         assertEquals(dummyMovie.averageVote, movieEntity.averageVote)
         assertEquals(dummyMovie.releaseDate, movieEntity.releaseDate)
         assertEquals(dummyMovie.overview, movieEntity.overview)
-        assertEquals(dummyMovie.status, movieEntity.status)
+        assertEquals(dummyMovie.popularity, movieEntity.popularity)
         assertEquals(dummyMovie.originalTitle, movieEntity.originalTitle)
         assertEquals(dummyMovie.originalLanguage, movieEntity.originalLanguage)
-        assertEquals(dummyMovie.runtime, movieEntity.runtime)
+        assertEquals(dummyMovie.voteCount, movieEntity.voteCount)
+
+        viewModel.getMovie().observeForever(movieObserver)
+        verify(movieObserver).onChanged(dummyMovie)
     }
 }

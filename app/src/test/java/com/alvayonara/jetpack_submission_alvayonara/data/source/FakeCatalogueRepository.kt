@@ -5,18 +5,8 @@ import com.alvayonara.jetpack_submission_alvayonara.data.MovieEntity
 import com.alvayonara.jetpack_submission_alvayonara.data.TvShowEntity
 import com.alvayonara.jetpack_submission_alvayonara.data.source.remote.RemoteDataSource
 
-class CatalogueRepository private constructor(private val remoteDataSource: RemoteDataSource) :
+class FakeCatalogueRepository(private val remoteDataSource: RemoteDataSource) :
     CatalogueDataSource {
-
-    companion object {
-        @Volatile
-        private var instance: CatalogueRepository? = null
-
-        fun getInstance(remoteData: RemoteDataSource): CatalogueRepository =
-            instance ?: synchronized(this) {
-                instance ?: CatalogueRepository(remoteData)
-            }
-    }
 
     override fun getAllMovies(): LiveData<List<MovieEntity>> = remoteDataSource.getAllMovies()
 

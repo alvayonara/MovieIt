@@ -41,7 +41,7 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.TvShowViewHolder>() {
                 title_tv_show_card.text = tvShow.title
                 overview_tv_show_card.text = tvShow.overview
                 Glide.with(context)
-                    .load(tvShow.posterPath)
+                    .load(BuildConfig.BASE_URL_TMDB_POSTER + tvShow.posterPath)
                     .apply(
                         RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error)
                     )

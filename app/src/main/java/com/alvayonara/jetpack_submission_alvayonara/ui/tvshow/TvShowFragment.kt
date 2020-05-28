@@ -1,20 +1,17 @@
 package com.alvayonara.jetpack_submission_alvayonara.ui.tvshow
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.alvayonara.jetpack_submission_alvayonara.R
-import com.alvayonara.jetpack_submission_alvayonara.data.TvShowEntity
 import com.alvayonara.jetpack_submission_alvayonara.utils.invisible
 import com.alvayonara.jetpack_submission_alvayonara.utils.visible
 import com.alvayonara.jetpack_submission_alvayonara.viewmodel.ViewModelFactory
-import com.androidnetworking.AndroidNetworking
 import kotlinx.android.synthetic.main.fragment_tv_show.*
 import org.jetbrains.anko.support.v4.ctx
 

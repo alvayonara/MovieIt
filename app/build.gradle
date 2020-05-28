@@ -19,7 +19,7 @@ android {
 
         buildConfigField "String", "BASE_URL_TMDB", '"https://api.themoviedb.org/"'
         buildConfigField "String", "BASE_URL_TMDB_POSTER", '"https://image.tmdb.org/t/p/w154/"'
-        buildConfigField "String" , "TMDB_API_KEY" , '"c29e33a738035f7431fb53e1f3b7215e"'
+        buildConfigField "String", "TMDB_API_KEY", '"c29e33a738035f7431fb53e1f3b7215e"'
     }
     buildTypes {
         release {
@@ -54,6 +54,10 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "androidx.arch.core:core-testing:$archLifecycleTestingVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoInlineVersion"
 
     //architecture component
     implementation "androidx.lifecycle:lifecycle-viewmodel:$archLifecycleVersion"
@@ -64,7 +68,9 @@ dependencies {
     //espresso
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.test:rules:$androidXTestVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$idleResourceVersion"
 
-    // Fast Android Networking
-    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitGsonVersion"
 }

@@ -45,7 +45,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 title_movie_card.text = movie.title
                 overview_movie_card.text = movie.overview
                 Glide.with(context)
-                    .load(movie.posterPath)
+                    .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)
                     .apply(
                         RequestOptions.placeholderOf(R.drawable.ic_loading)
                             .error(R.drawable.ic_error)
