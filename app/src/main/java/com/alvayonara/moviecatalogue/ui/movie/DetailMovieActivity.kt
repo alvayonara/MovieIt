@@ -9,7 +9,7 @@ import com.alvayonara.moviecatalogue.BuildConfig
 import com.alvayonara.moviecatalogue.utils.DateConvert
 import com.alvayonara.moviecatalogue.R
 import com.alvayonara.moviecatalogue.utils.ToolbarConfig
-import com.alvayonara.moviecatalogue.data.MovieEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.utils.invisible
 import com.alvayonara.moviecatalogue.utils.visible
 import com.alvayonara.moviecatalogue.viewmodel.ViewModelFactory

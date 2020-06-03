@@ -1,7 +1,6 @@
 package com.alvayonara.moviecatalogue.api
 
-import com.alvayonara.moviecatalogue.data.MovieEntity
-import com.alvayonara.moviecatalogue.data.TvShowEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.source.remote.response.MovieResponse
 import com.alvayonara.moviecatalogue.data.source.remote.response.TvShowResponse
 import retrofit2.Call
@@ -22,7 +21,7 @@ interface TheMovieDBApi {
         @Path("movieId") movieId: String?,
         @Query("api_key") api: String?,
         @Query("language") language: String?
-    ): Call<MovieEntity>
+    ): Call<MovieResponse>
 
     @GET("3/discover/tv")
     fun getTvShows(
@@ -35,5 +34,5 @@ interface TheMovieDBApi {
         @Path("tvShowId") tvShowId: String?,
         @Query("api_key") api: String?,
         @Query("language") language: String?
-    ): Call<TvShowEntity>
+    ): Call<TvShowResponse>
 }

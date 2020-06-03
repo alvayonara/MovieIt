@@ -1,7 +1,7 @@
 package com.alvayonara.moviecatalogue.utils
 
-import com.alvayonara.moviecatalogue.data.MovieEntity
-import com.alvayonara.moviecatalogue.data.TvShowEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 
 object FakeDataDummy {
     fun generateRemoteDummyMovies(): List<MovieEntity> {

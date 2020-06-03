@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alvayonara.moviecatalogue.BuildConfig
 import com.alvayonara.moviecatalogue.R
-import com.alvayonara.moviecatalogue.data.MovieEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.ui.movie.DetailMovieActivity.Companion.EXTRA_MOVIE_ID
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions

@@ -2,7 +2,7 @@ package com.alvayonara.moviecatalogue.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.alvayonara.moviecatalogue.data.source.CatalogueRepository
+import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.di.Injection
 import com.alvayonara.moviecatalogue.ui.movie.DetailMovieViewModel
 import com.alvayonara.moviecatalogue.ui.movie.MovieViewModel

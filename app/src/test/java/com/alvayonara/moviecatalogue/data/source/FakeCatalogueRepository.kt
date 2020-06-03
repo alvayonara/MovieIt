@@ -1,8 +1,9 @@
 package com.alvayonara.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
-import com.alvayonara.moviecatalogue.data.MovieEntity
-import com.alvayonara.moviecatalogue.data.TvShowEntity
+import com.alvayonara.moviecatalogue.data.CatalogueDataSource
+import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.source.remote.RemoteDataSource
 
 class FakeCatalogueRepository(private val remoteDataSource: RemoteDataSource) :

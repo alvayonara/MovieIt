@@ -3,8 +3,8 @@ package com.alvayonara.moviecatalogue.ui.tvshow
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.alvayonara.moviecatalogue.data.TvShowEntity
-import com.alvayonara.moviecatalogue.data.source.CatalogueRepository
+import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
+import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
 import org.junit.Assert.*
 import org.junit.Before

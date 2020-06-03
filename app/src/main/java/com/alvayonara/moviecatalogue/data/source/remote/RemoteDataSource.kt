@@ -5,8 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alvayonara.moviecatalogue.BuildConfig
 import com.alvayonara.moviecatalogue.api.ApiRepository
-import com.alvayonara.moviecatalogue.data.MovieEntity
-import com.alvayonara.moviecatalogue.data.TvShowEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.source.remote.response.MovieResponse
 import com.alvayonara.moviecatalogue.data.source.remote.response.TvShowResponse
 import com.alvayonara.moviecatalogue.utils.EspressoIdlingResource
@@ -29,9 +28,9 @@ class RemoteDataSource {
             }
     }
 
-    fun getAllMovies(): LiveData<List<MovieEntity>> {
+    fun getAllMovies(): LiveData<ApiResponse<List<MovieResponse>>> {
         EspressoIdlingResource.increment()
-        val movieResults = MutableLiveData<List<MovieEntity>>()
+        val movieResults = MutableLiveData<ApiResponse<List<MovieResponse>>>()
 
         ApiRepository().theMovieDBApi.getMovies(BuildConfig.TMDB_API_KEY, LANGUAGE).enqueue(object :
             Callback<MovieResponse> {
@@ -40,7 +39,7 @@ class RemoteDataSource {
             }
 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                movieResults.postValue(response.body()?.movies)
+                movieResults.postValue(ApiResponse.success(response.body()!!.movies))
             }
         })
         EspressoIdlingResource.decrement()
@@ -48,18 +47,18 @@ class RemoteDataSource {
         return movieResults
     }
 
-    fun getMovieById(movieId: String): LiveData<MovieEntity> {
+    fun getMovieById(movieId: String): LiveData<ApiResponse<MovieResponse>> {
         EspressoIdlingResource.increment()
-        val movieResult = MutableLiveData<MovieEntity>()
+        val movieResult = MutableLiveData<ApiResponse<MovieResponse>>()
 
         ApiRepository().theMovieDBApi.getMovieById(movieId, BuildConfig.TMDB_API_KEY, LANGUAGE)
-            .enqueue(object : Callback<MovieEntity> {
-                override fun onFailure(call: Call<MovieEntity>, t: Throwable) {
+            .enqueue(object : Callback<MovieResponse> {
+                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                     Log.e("Movie Request Error: ", t.toString())
                 }
 
-                override fun onResponse(call: Call<MovieEntity>, response: Response<MovieEntity>) {
-                    movieResult.postValue(response.body())
+                override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                    movieResult.postValue(ApiResponse.success(response.body()!!))
                 }
             })
         EspressoIdlingResource.decrement()
@@ -67,9 +66,9 @@ class RemoteDataSource {
         return movieResult
     }
 
-    fun getAllTvShows(): LiveData<List<TvShowEntity>> {
+    fun getAllTvShows(): LiveData<ApiResponse<List<TvShowResponse>>> {
         EspressoIdlingResource.increment()
-        val tvShowResults = MutableLiveData<List<TvShowEntity>>()
+        val tvShowResults = MutableLiveData<ApiResponse<List<TvShowResponse>>>()
 
         ApiRepository().theMovieDBApi.getTvShows(BuildConfig.TMDB_API_KEY, LANGUAGE)
             .enqueue(object : Callback<TvShowResponse> {
@@ -81,7 +80,7 @@ class RemoteDataSource {
                     call: Call<TvShowResponse>,
                     response: Response<TvShowResponse>
                 ) {
-                    tvShowResults.postValue(response.body()?.tvShows)
+                    tvShowResults.postValue(ApiResponse.success(response.body()!!.tvShows))
                 }
 
             })
@@ -90,21 +89,21 @@ class RemoteDataSource {
         return tvShowResults
     }
 
-    fun getTvShowById(tvShowId: String): LiveData<TvShowEntity> {
+    fun getTvShowById(tvShowId: String): LiveData<ApiResponse<TvShowResponse>> {
         EspressoIdlingResource.increment()
-        val tvShowResult = MutableLiveData<TvShowEntity>()
+        val tvShowResult = MutableLiveData<ApiResponse<TvShowResponse>>()
 
         ApiRepository().theMovieDBApi.getTvShowById(tvShowId, BuildConfig.TMDB_API_KEY, LANGUAGE)
-            .enqueue(object : Callback<TvShowEntity> {
-                override fun onFailure(call: Call<TvShowEntity>, t: Throwable) {
+            .enqueue(object : Callback<TvShowResponse> {
+                override fun onFailure(call: Call<TvShowResponse>, t: Throwable) {
                     Log.e("TvShow Request Error: ", t.toString())
                 }
 
                 override fun onResponse(
-                    call: Call<TvShowEntity>,
-                    response: Response<TvShowEntity>
+                    call: Call<TvShowResponse>,
+                    response: Response<TvShowResponse>
                 ) {
-                    tvShowResult.postValue(response.body())
+                    tvShowResult.postValue(ApiResponse.success(response.body()!!))
                 }
 
             })

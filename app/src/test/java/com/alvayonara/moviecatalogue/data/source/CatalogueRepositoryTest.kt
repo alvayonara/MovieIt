@@ -2,8 +2,8 @@ package com.alvayonara.moviecatalogue.data.source
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.alvayonara.moviecatalogue.data.MovieEntity
-import com.alvayonara.moviecatalogue.data.TvShowEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.source.remote.RemoteDataSource
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
 import com.alvayonara.moviecatalogue.utils.LiveDataTestUtil

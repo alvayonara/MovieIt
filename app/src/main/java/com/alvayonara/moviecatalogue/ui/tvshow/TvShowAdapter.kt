@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alvayonara.moviecatalogue.BuildConfig
 import com.alvayonara.moviecatalogue.R
-import com.alvayonara.moviecatalogue.data.TvShowEntity
+import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.ui.tvshow.DetailTvShowActivity.Companion.EXTRA_TV_SHOW_ID
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions

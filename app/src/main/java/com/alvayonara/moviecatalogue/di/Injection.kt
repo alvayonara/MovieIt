@@ -1,13 +1,21 @@
 package com.alvayonara.moviecatalogue.di
 
-import com.alvayonara.moviecatalogue.data.source.CatalogueRepository
+import android.content.Context
+import com.alvayonara.moviecatalogue.data.CatalogueRepository
+import com.alvayonara.moviecatalogue.data.source.local.LocalDataSource
+import com.alvayonara.moviecatalogue.data.source.local.room.CatalogueDatabase
 import com.alvayonara.moviecatalogue.data.source.remote.RemoteDataSource
+import com.alvayonara.moviecatalogue.utils.AppExecutors
 
 object Injection {
-    fun provideRepository(): CatalogueRepository {
+    fun provideRepository(context: Context): CatalogueRepository {
+
+        val database = CatalogueDatabase.getInstance(context)
 
         val remoteDataSource = RemoteDataSource.getInstance()
+        val localDataSource = LocalDataSource.getInstance(database.catalogueDao())
+        val appExecutors = AppExecutors()
 
-        return CatalogueRepository.getInstance(remoteDataSource)
+        return CatalogueRepository.getInstance(remoteDataSource, localDataSource, appExecutors)
     }
 }
