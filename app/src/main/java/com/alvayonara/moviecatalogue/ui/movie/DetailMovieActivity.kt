@@ -1,9 +1,11 @@
 package com.alvayonara.moviecatalogue.ui.movie
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.moviecatalogue.BuildConfig
@@ -23,6 +25,9 @@ import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 class DetailMovieActivity : AppCompatActivity() {
 
+    internal lateinit var viewModel: DetailMovieViewModel
+    private var menu: Menu? = null
+
     companion object {
         const val EXTRA_MOVIE_ID = "extra_movie_id"
     }
@@ -34,7 +39,7 @@ class DetailMovieActivity : AppCompatActivity() {
         initToolbar()
 
         val factory = ViewModelFactory.getInstance(this)
-        val viewModel = ViewModelProvider(
+        viewModel = ViewModelProvider(
             this,
             factory
         )[DetailMovieViewModel::class.java]
@@ -58,7 +63,7 @@ class DetailMovieActivity : AppCompatActivity() {
                             Status.ERROR -> {
                                 progress_bar_tv_show.invisible()
                                 Toast.makeText(
-                                    applicationContext,
+                                    this,
                                     "Terjadi kesalahan",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -103,7 +108,48 @@ class DetailMovieActivity : AppCompatActivity() {
                 onBackPressed()
                 true
             }
+            R.id.action_favorite -> {
+                viewModel.setFavoriteMovie()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        this.menu = menu
+        viewModel.movieDetail.observe(this, Observer { movie ->
+            if (movie != null) {
+                when (movie.status) {
+                    Status.LOADING -> progress_bar_detail_movie.visible()
+                    Status.SUCCESS -> {
+                        if (movie.data != null) {
+                            progress_bar_detail_movie.invisible()
+                            val state = movie.data.favored
+                            setFavoriteState(state)
+                        }
+                    }
+                    Status.ERROR -> {
+                        Toast.makeText(
+                            this,
+                            "Terjadi kesalahan",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        })
+        return true
+    }
+
+    private fun setFavoriteState(state: Boolean) {
+        if (menu == null) return
+        val menuItem = menu?.findItem(R.id.action_favorite)
+        if (state) {
+            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favored)
+        } else {
+            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite)
         }
     }
 }

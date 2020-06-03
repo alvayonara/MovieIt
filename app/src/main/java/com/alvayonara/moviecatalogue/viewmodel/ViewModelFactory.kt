@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.di.Injection
+import com.alvayonara.moviecatalogue.ui.favorite.movie.FavoriteMovieViewModel
+import com.alvayonara.moviecatalogue.ui.favorite.tvshow.FavoriteTvShowViewModel
 import com.alvayonara.moviecatalogue.ui.movie.DetailMovieViewModel
 import com.alvayonara.moviecatalogue.ui.movie.MovieViewModel
 import com.alvayonara.moviecatalogue.ui.tvshow.DetailTvShowViewModel
@@ -37,6 +39,12 @@ class ViewModelFactory private constructor(private val catalogueRepository: Cata
             }
             modelClass.isAssignableFrom(DetailTvShowViewModel::class.java) -> {
                 DetailTvShowViewModel(catalogueRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteMovieViewModel::class.java) -> {
+                FavoriteMovieViewModel(catalogueRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteTvShowViewModel::class.java) -> {
+                FavoriteTvShowViewModel(catalogueRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

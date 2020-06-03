@@ -1,9 +1,11 @@
 package com.alvayonara.moviecatalogue.ui.tvshow
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.moviecatalogue.BuildConfig
@@ -23,6 +25,9 @@ import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 class DetailTvShowActivity : AppCompatActivity() {
 
+    internal lateinit var viewModel: DetailTvShowViewModel
+    private var menu: Menu? = null
+
     companion object {
         const val EXTRA_TV_SHOW_ID = "extra_tv_show_id"
     }
@@ -34,7 +39,7 @@ class DetailTvShowActivity : AppCompatActivity() {
         initToolbar()
 
         val factory = ViewModelFactory.getInstance(this)
-        val viewModel = ViewModelProvider(
+        viewModel = ViewModelProvider(
             this,
             factory
         )[DetailTvShowViewModel::class.java]
@@ -58,7 +63,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                             Status.ERROR -> {
                                 progress_bar_tv_show.invisible()
                                 Toast.makeText(
-                                    applicationContext,
+                                    this,
                                     "Terjadi kesalahan",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -101,7 +106,48 @@ class DetailTvShowActivity : AppCompatActivity() {
                 onBackPressed()
                 true
             }
+            R.id.action_favorite -> {
+                viewModel.setFavoriteTvShow()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        this.menu = menu
+        viewModel.tvShowDetail.observe(this, Observer { tvShow ->
+            if (tvShow != null) {
+                when(tvShow.status) {
+                    Status.LOADING -> progress_bar_detail_tv_show.visible()
+                    Status.SUCCESS -> {
+                        if (tvShow.data != null){
+                            progress_bar_detail_tv_show.invisible()
+                            val state = tvShow.data.favored
+                            setFavoriteState(state)
+                        }
+                    }
+                    Status.ERROR -> {
+                        Toast.makeText(
+                            this,
+                            "Terjadi kesalahan",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        })
+        return true
+    }
+
+    private fun setFavoriteState(state: Boolean) {
+        if (menu == null) return
+        val menuItem = menu?.findItem(R.id.action_favorite)
+        if (state) {
+            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favored)
+        } else {
+            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite)
         }
     }
 }
