@@ -154,7 +154,7 @@ class CatalogueRepository private constructor(
                     data.title,
                     data.originalTitle,
                     data.originalLanguage,
-                    data.posterPath,Re
+                    data.posterPath,
                     data.overview,
                     data.releaseDate,
                     data.voteCount,

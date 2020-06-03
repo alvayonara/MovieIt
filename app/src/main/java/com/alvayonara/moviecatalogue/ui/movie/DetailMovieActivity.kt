@@ -2,6 +2,7 @@ package com.alvayonara.moviecatalogue.ui.movie
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,10 +14,12 @@ import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.utils.invisible
 import com.alvayonara.moviecatalogue.utils.visible
 import com.alvayonara.moviecatalogue.viewmodel.ViewModelFactory
+import com.alvayonara.moviecatalogue.vo.Status
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import kotlinx.android.synthetic.main.activity_home.toolbar
+import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 class DetailMovieActivity : AppCompatActivity() {
 
@@ -30,7 +33,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         initToolbar()
 
-        val factory = ViewModelFactory.getInstance()
+        val factory = ViewModelFactory.getInstance(this)
         val viewModel = ViewModelProvider(
             this,
             factory
@@ -42,12 +45,26 @@ class DetailMovieActivity : AppCompatActivity() {
             if (movieId != null) {
                 viewModel.setSelectedMovie(movieId)
 
-                progress_bar_detail_movie.visible()
-
-                viewModel.getMovie().observe(this, Observer { movie ->
-                    progress_bar_detail_movie.invisible()
-
-                    populateMovie(movie)
+                viewModel.movieDetail.observe(this, Observer { movie ->
+                    if (movie != null) {
+                        when (movie.status) {
+                            Status.LOADING -> progress_bar_detail_movie.visible()
+                            Status.SUCCESS -> {
+                                if (movie.data != null) {
+                                    progress_bar_detail_movie.invisible()
+                                    populateMovie(movie.data)
+                                }
+                            }
+                            Status.ERROR -> {
+                                progress_bar_tv_show.invisible()
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Terjadi kesalahan",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
                 })
             }
         }

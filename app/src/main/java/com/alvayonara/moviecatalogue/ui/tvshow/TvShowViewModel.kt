@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
+import com.alvayonara.moviecatalogue.vo.Resource
 
 class TvShowViewModel(private val catalogueRepository: CatalogueRepository) : ViewModel() {
 
-    fun getTvShows(): LiveData<List<TvShowEntity>> = catalogueRepository.getAllTvShows()
+    fun getTvShows(): LiveData<Resource<List<TvShowEntity>>> = catalogueRepository.getAllTvShows()
 }

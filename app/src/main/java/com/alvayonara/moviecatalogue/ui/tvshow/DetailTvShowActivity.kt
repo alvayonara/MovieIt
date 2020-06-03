@@ -2,6 +2,7 @@ package com.alvayonara.moviecatalogue.ui.tvshow
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,10 +14,12 @@ import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.utils.invisible
 import com.alvayonara.moviecatalogue.utils.visible
 import com.alvayonara.moviecatalogue.viewmodel.ViewModelFactory
+import com.alvayonara.moviecatalogue.vo.Status
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_tv_show.*
 import kotlinx.android.synthetic.main.activity_home.toolbar
+import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 class DetailTvShowActivity : AppCompatActivity() {
 
@@ -30,7 +33,7 @@ class DetailTvShowActivity : AppCompatActivity() {
 
         initToolbar()
 
-        val factory = ViewModelFactory.getInstance()
+        val factory = ViewModelFactory.getInstance(this)
         val viewModel = ViewModelProvider(
             this,
             factory
@@ -42,12 +45,26 @@ class DetailTvShowActivity : AppCompatActivity() {
             if (tvShowId != null) {
                 viewModel.setSelectedTvShow(tvShowId)
 
-                progress_bar_detail_tv_show.visible()
-
-                viewModel.getTvShow().observe(this, Observer { tvShow ->
-                    progress_bar_detail_tv_show.invisible()
-
-                    populateTvShow(tvShow)
+                viewModel.tvShowDetail.observe(this, Observer { tvShow ->
+                    if (tvShow != null) {
+                        when (tvShow.status) {
+                            Status.LOADING -> progress_bar_detail_tv_show.visible()
+                            Status.SUCCESS -> {
+                                if (tvShow.data != null) {
+                                    progress_bar_detail_tv_show.invisible()
+                                    populateTvShow(tvShow.data)
+                                }
+                            }
+                            Status.ERROR -> {
+                                progress_bar_tv_show.invisible()
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Terjadi kesalahan",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
                 })
             }
         }
