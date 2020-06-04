@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
+import com.alvayonara.moviecatalogue.vo.Resource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -29,7 +30,7 @@ class MovieViewModelTest {
     private lateinit var catalogueRepository: CatalogueRepository
 
     @Mock
-    private lateinit var observer: Observer<List<MovieEntity>>
+    private lateinit var observer: Observer<Resource<List<MovieEntity>>>
 
     @Before
     fun setUp() {
@@ -38,13 +39,13 @@ class MovieViewModelTest {
 
     @Test
     fun getMovies() {
-        val dummyMovies = FakeDataDummy.generateRemoteDummyMovies()
-        val movies = MutableLiveData<List<MovieEntity>>()
+        val dummyMovies = Resource.success(FakeDataDummy.generateRemoteDummyMovies())
+        val movies = MutableLiveData<Resource<List<MovieEntity>>>()
         movies.value = dummyMovies
 
         `when`(catalogueRepository.getAllMovies()).thenReturn(movies)
-        val movieEntities = viewModel.getMovies().value
-        verify<CatalogueRepository>(catalogueRepository).getAllMovies()
+        val movieEntities = viewModel.getMovies().value?.data
+        verify(catalogueRepository).getAllMovies()
         assertNotNull(movieEntities)
         assertEquals(10, movieEntities?.size)
 

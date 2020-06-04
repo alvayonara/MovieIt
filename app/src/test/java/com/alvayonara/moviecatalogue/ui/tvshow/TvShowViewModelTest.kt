@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
+import com.alvayonara.moviecatalogue.vo.Resource
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -28,7 +29,7 @@ class TvShowViewModelTest {
     private lateinit var catalogueRepository: CatalogueRepository
 
     @Mock
-    private lateinit var observer: Observer<List<TvShowEntity>>
+    private lateinit var observer: Observer<Resource<List<TvShowEntity>>>
 
     @Before
     fun setUp() {
@@ -37,13 +38,13 @@ class TvShowViewModelTest {
 
     @Test
     fun getTvShows() {
-        val dummyTvShows = FakeDataDummy.generateRemoteDummyTvShows()
-        val tvShows = MutableLiveData<List<TvShowEntity>>()
+        val dummyTvShows = Resource.success(FakeDataDummy.generateRemoteDummyTvShows())
+        val tvShows = MutableLiveData<Resource<List<TvShowEntity>>>()
         tvShows.value = dummyTvShows
 
         `when`(catalogueRepository.getAllTvShows()).thenReturn(tvShows)
-        val tvShowEntities = viewModel.getTvShows().value
-        verify<CatalogueRepository>(catalogueRepository).getAllTvShows()
+        val tvShowEntities = viewModel.getTvShows().value?.data
+        verify(catalogueRepository).getAllTvShows()
         assertNotNull(tvShowEntities)
         assertEquals(10, tvShowEntities?.size)
 

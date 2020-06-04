@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
+import com.alvayonara.moviecatalogue.vo.Resource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -30,34 +31,24 @@ class DetailMovieViewModelTest {
     private lateinit var catalogueRepository: CatalogueRepository
 
     @Mock
-    private lateinit var movieObserver: Observer<MovieEntity>
+    private lateinit var movieObserver: Observer<Resource<MovieEntity>>
 
     @Before
     fun setUp() {
         viewModel = DetailMovieViewModel(catalogueRepository)
-        viewModel.setSelectedMovie(movieId!!)
+        viewModel.setSelectedMovie(movieId)
     }
 
     @Test
     fun getMovie() {
-        val movie = MutableLiveData<MovieEntity>()
-        movie.value = dummyMovie
+        val dummyMovieDetail = Resource.success(dummyMovie)
+        val movie = MutableLiveData<Resource<MovieEntity>>()
+        movie.value = dummyMovieDetail
 
-        `when`(catalogueRepository.getMovieById(movieId!!)).thenReturn(movie)
-        val movieEntity = viewModel.getMovie().value as MovieEntity
-        verify(catalogueRepository).getMovieById(movieId)
-        assertNotNull(movieEntity)
-        assertEquals(dummyMovie.movieId, movieEntity.movieId)
-        assertEquals(dummyMovie.title, movieEntity.title)
-        assertEquals(dummyMovie.averageVote, movieEntity.averageVote)
-        assertEquals(dummyMovie.releaseDate, movieEntity.releaseDate)
-        assertEquals(dummyMovie.overview, movieEntity.overview)
-        assertEquals(dummyMovie.popularity, movieEntity.popularity)
-        assertEquals(dummyMovie.originalTitle, movieEntity.originalTitle)
-        assertEquals(dummyMovie.originalLanguage, movieEntity.originalLanguage)
-        assertEquals(dummyMovie.voteCount, movieEntity.voteCount)
+        `when`(catalogueRepository.getMovieById(movieId)).thenReturn(movie)
 
-        viewModel.getMovie().observeForever(movieObserver)
-        verify(movieObserver).onChanged(dummyMovie)
+        viewModel.movieDetail.observeForever(movieObserver)
+
+        verify(movieObserver).onChanged(dummyMovieDetail)
     }
 }

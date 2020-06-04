@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
+import com.alvayonara.moviecatalogue.vo.Resource
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -29,7 +30,7 @@ class DetailTvShowViewModelTest {
     private lateinit var catalogueRepository: CatalogueRepository
 
     @Mock
-    private lateinit var tvShowObserver: Observer<TvShowEntity>
+    private lateinit var tvShowObserver: Observer<Resource<TvShowEntity>>
 
     @Before
     fun setUp() {
@@ -39,24 +40,14 @@ class DetailTvShowViewModelTest {
 
     @Test
     fun getTvShow() {
-        val tvShow = MutableLiveData<TvShowEntity>()
-        tvShow.value = dummyTvShow
+        val dummyTvShowDetail = Resource.success(dummyTvShow)
+        val tvShow = MutableLiveData<Resource<TvShowEntity>>()
+        tvShow.value = dummyTvShowDetail
 
-        `when`(catalogueRepository.getTvShowById(tvShowId!!)).thenReturn(tvShow)
-        val tvShowEntity = viewModel.getTvShow().value as TvShowEntity
-        verify(catalogueRepository).getTvShowById(tvShowId)
-        assertNotNull(tvShowEntity)
-        assertEquals(dummyTvShow.tvShowId, tvShowEntity.tvShowId)
-        assertEquals(dummyTvShow.title, tvShowEntity.title)
-        assertEquals(dummyTvShow.averageVote, tvShowEntity.averageVote)
-        assertEquals(dummyTvShow.releaseDate, tvShowEntity.releaseDate)
-        assertEquals(dummyTvShow.overview, tvShowEntity.overview)
-        assertEquals(dummyTvShow.popularity, tvShowEntity.popularity)
-        assertEquals(dummyTvShow.originalTitle, tvShowEntity.originalTitle)
-        assertEquals(dummyTvShow.originalLanguage, tvShowEntity.originalLanguage)
-        assertEquals(dummyTvShow.voteCount, tvShowEntity.voteCount)
+        `when`(catalogueRepository.getTvShowById(tvShowId)).thenReturn(tvShow)
 
-        viewModel.getTvShow().observeForever(tvShowObserver)
-        verify(tvShowObserver).onChanged(dummyTvShow)
+        viewModel.tvShowDetail.observeForever(tvShowObserver)
+
+        verify(tvShowObserver).onChanged(dummyTvShowDetail)
     }
 }
