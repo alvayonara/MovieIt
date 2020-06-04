@@ -3,6 +3,7 @@ package com.alvayonara.moviecatalogue.ui.tvshow
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
@@ -29,7 +30,10 @@ class TvShowViewModelTest {
     private lateinit var catalogueRepository: CatalogueRepository
 
     @Mock
-    private lateinit var observer: Observer<Resource<List<TvShowEntity>>>
+    private lateinit var observer: Observer<Resource<PagedList<TvShowEntity>>>
+
+    @Mock
+    private lateinit var pagedList: PagedList<TvShowEntity>
 
     @Before
     fun setUp() {
@@ -38,8 +42,9 @@ class TvShowViewModelTest {
 
     @Test
     fun getTvShows() {
-        val dummyTvShows = Resource.success(FakeDataDummy.generateRemoteDummyTvShows())
-        val tvShows = MutableLiveData<Resource<List<TvShowEntity>>>()
+        val dummyTvShows = Resource.success(pagedList)
+        `when`(dummyTvShows.data?.size).thenReturn(10)
+        val tvShows = MutableLiveData<Resource<PagedList<TvShowEntity>>>()
         tvShows.value = dummyTvShows
 
         `when`(catalogueRepository.getAllTvShows()).thenReturn(tvShows)

@@ -3,6 +3,7 @@ package com.alvayonara.moviecatalogue.ui.favorite.movie
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
@@ -30,7 +31,10 @@ class FavoriteMovieViewModelTest {
     private lateinit var catalogueRepository: CatalogueRepository
 
     @Mock
-    private lateinit var observer: Observer<List<MovieEntity>>
+    private lateinit var observer: Observer<PagedList<MovieEntity>>
+
+    @Mock
+    private lateinit var pagedList: PagedList<MovieEntity>
 
     @Before
     fun setUp(){
@@ -39,8 +43,9 @@ class FavoriteMovieViewModelTest {
 
     @Test
     fun getFavoredMovies() {
-        val dummyFavoredMovies = FakeDataDummy.generateRemoteDummyMovies()
-        val movies = MutableLiveData<List<MovieEntity>>()
+        val dummyFavoredMovies = pagedList
+        `when`(dummyFavoredMovies.size).thenReturn(10)
+        val movies = MutableLiveData<PagedList<MovieEntity>>()
         movies.value = dummyFavoredMovies
 
         `when`(catalogueRepository.getFavoredMovies()).thenReturn(movies)
