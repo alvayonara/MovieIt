@@ -46,13 +46,12 @@ class FavoriteMovieFragment : Fragment() {
 
         viewModel.getFavoredMovies().observe(this, Observer { movies ->
             progress_bar_movie.invisible()
-            movieAdapter.setMovies(movies)
+            movieAdapter.submitList(movies)
             movieAdapter.notifyDataSetChanged()
         })
 
         with(rv_movie) {
             layoutManager = LinearLayoutManager(ctx)
-            setHasFixedSize(true)
             adapter = movieAdapter
         }
     }

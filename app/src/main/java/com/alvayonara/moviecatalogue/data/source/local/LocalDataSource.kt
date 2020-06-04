@@ -1,6 +1,7 @@
 package com.alvayonara.moviecatalogue.data.source.local
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.source.local.room.CatalogueDao
@@ -17,9 +18,9 @@ class LocalDataSource private constructor(private val mCatalogueDao: CatalogueDa
             }
     }
 
-    fun getAllMovies(): LiveData<List<MovieEntity>> = mCatalogueDao.getMovies()
+    fun getAllMovies(): DataSource.Factory<Int, MovieEntity> = mCatalogueDao.getMovies()
 
-    fun getFavoredMovies(): LiveData<List<MovieEntity>> = mCatalogueDao.getFavoredMovie()
+    fun getFavoredMovies(): DataSource.Factory<Int, MovieEntity> = mCatalogueDao.getFavoredMovie()
 
     fun setMovieFavorite(movie: MovieEntity, newState: Boolean) {
         movie.favored = newState
@@ -32,9 +33,10 @@ class LocalDataSource private constructor(private val mCatalogueDao: CatalogueDa
 
     fun updateMovie(movie: MovieEntity) = mCatalogueDao.updateMovie(movie)
 
-    fun getAllTvShows(): LiveData<List<TvShowEntity>> = mCatalogueDao.getTvShows()
+    fun getAllTvShows(): DataSource.Factory<Int, TvShowEntity> = mCatalogueDao.getTvShows()
 
-    fun getFavoredTvShows(): LiveData<List<TvShowEntity>> = mCatalogueDao.getFavoredTvShow()
+    fun getFavoredTvShows(): DataSource.Factory<Int, TvShowEntity> =
+        mCatalogueDao.getFavoredTvShow()
 
     fun setTvShowFavorite(tvShow: TvShowEntity, newState: Boolean) {
         tvShow.favored = newState

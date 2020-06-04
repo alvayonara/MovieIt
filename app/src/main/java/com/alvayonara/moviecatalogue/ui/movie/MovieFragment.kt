@@ -1,6 +1,7 @@
 package com.alvayonara.moviecatalogue.ui.movie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +46,7 @@ class MovieFragment : Fragment() {
                     Status.LOADING -> progress_bar_movie.visible()
                     Status.SUCCESS -> {
                         progress_bar_movie.invisible()
-                        movieAdapter.setMovies(movies.data)
+                        movieAdapter.submitList(movies.data)
                         movieAdapter.notifyDataSetChanged()
                     }
                     Status.ERROR -> {
@@ -58,7 +59,6 @@ class MovieFragment : Fragment() {
 
         with(rv_movie) {
             layoutManager = LinearLayoutManager(ctx)
-            setHasFixedSize(true)
             adapter = movieAdapter
         }
     }

@@ -52,4 +52,5 @@ ext {
     retrofitGsonVersion = '2.4.0'
 
     roomVersion = '2.2.5'
+    pagingVersion = '2.1.2'
 }

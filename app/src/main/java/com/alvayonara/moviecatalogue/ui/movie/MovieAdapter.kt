@@ -3,6 +3,8 @@ package com.alvayonara.moviecatalogue.ui.movie
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alvayonara.moviecatalogue.BuildConfig
 import com.alvayonara.moviecatalogue.R
@@ -13,14 +15,19 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_row_movie.view.*
 import org.jetbrains.anko.startActivity
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter internal constructor() :
+    PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(DIFF_CALLBACK) {
 
-    private var listMovies = ArrayList<MovieEntity>()
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
+            override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+                return oldItem.movieId == newItem.movieId
+            }
 
-    fun setMovies(movies: List<MovieEntity>?) {
-        if (movies == null) return
-        listMovies.clear()
-        listMovies.addAll(movies)
+            override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 
     override fun onCreateViewHolder(
@@ -34,10 +41,12 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         )
     )
 
-    override fun getItemCount(): Int = listMovies.size
-
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) =
-        holder.bindItem(listMovies[position])
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+        val course = getItem(position)
+        if (course != null) {
+            holder.bindItem(course)
+        }
+    }
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItem(movie: MovieEntity) {

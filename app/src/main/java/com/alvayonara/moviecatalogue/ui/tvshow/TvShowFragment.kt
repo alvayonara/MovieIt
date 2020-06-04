@@ -45,7 +45,7 @@ class TvShowFragment : Fragment() {
                     Status.LOADING -> progress_bar_tv_show.visible()
                     Status.SUCCESS -> {
                         progress_bar_tv_show.invisible()
-                        tvShowAdapter.setTvShows(tvShows.data)
+                        tvShowAdapter.submitList(tvShows.data)
                         tvShowAdapter.notifyDataSetChanged()
                     }
                     Status.ERROR -> {
@@ -58,7 +58,6 @@ class TvShowFragment : Fragment() {
 
         with(rv_tv_show) {
             layoutManager = LinearLayoutManager(ctx)
-            setHasFixedSize(true)
             adapter = tvShowAdapter
         }
     }

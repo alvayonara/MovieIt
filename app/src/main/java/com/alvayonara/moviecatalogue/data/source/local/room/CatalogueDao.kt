@@ -1,6 +1,7 @@
 package com.alvayonara.moviecatalogue.data.source.local.room
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
@@ -9,10 +10,10 @@ import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 interface CatalogueDao {
 
     @Query("SELECT * FROM movie")
-    fun getMovies(): LiveData<List<MovieEntity>>
+    fun getMovies(): DataSource.Factory<Int, MovieEntity>
 
     @Query("SELECT * FROM movie WHERE favored=1")
-    fun getFavoredMovie(): LiveData<List<MovieEntity>>
+    fun getFavoredMovie(): DataSource.Factory<Int, MovieEntity>
 
     @Transaction
     @Query("SELECT * FROM movie WHERE movieId = :movieId")
@@ -25,10 +26,10 @@ interface CatalogueDao {
     fun updateMovie(movie: MovieEntity)
 
     @Query("SELECT * FROM tv_show")
-    fun getTvShows(): LiveData<List<TvShowEntity>>
+    fun getTvShows(): DataSource.Factory<Int, TvShowEntity>
 
     @Query("SELECT * FROM tv_show WHERE favored=1")
-    fun getFavoredTvShow(): LiveData<List<TvShowEntity>>
+    fun getFavoredTvShow(): DataSource.Factory<Int, TvShowEntity>
 
     @Transaction
     @Query("SELECT * FROM tv_show WHERE tvShowId = :tvShowId")

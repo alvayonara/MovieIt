@@ -108,7 +108,6 @@ class HomeActivityTest {
         onView(withId(R.id.action_favorite)).perform(click())
         onView(isRoot()).perform(ViewActions.pressBack())
         onView(withId(R.id.action_to_favorite)).perform(click())
-
         onView(withId(R.id.tabs_favorite)).check(matches(isDisplayed()))
         onView(withText(R.string.tab_text_1)).perform(click())
         onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
@@ -143,7 +142,6 @@ class HomeActivityTest {
         onView(withId(R.id.action_favorite)).perform(click())
         onView(isRoot()).perform(ViewActions.pressBack())
         onView(withId(R.id.action_to_favorite)).perform(click())
-
         onView(withId(R.id.tabs_favorite)).check(matches(isDisplayed()))
         onView(withText(R.string.tab_text_2)).perform(click())
         onView(withId(R.id.rv_tv_show)).check(matches(isDisplayed()))

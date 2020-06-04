@@ -45,13 +45,12 @@ class FavoriteTvShowFragment : Fragment() {
 
         viewModel.getFavoredTvShows().observe(this, Observer { tvShows ->
             progress_bar_tv_show.invisible()
-            tvShowAdapter.setTvShows(tvShows)
+            tvShowAdapter.submitList(tvShows)
             tvShowAdapter.notifyDataSetChanged()
         })
 
         with(rv_tv_show) {
             layoutManager = LinearLayoutManager(ctx)
-            setHasFixedSize(true)
             adapter = tvShowAdapter
         }
     }
