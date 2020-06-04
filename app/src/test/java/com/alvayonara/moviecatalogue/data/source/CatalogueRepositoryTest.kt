@@ -12,7 +12,6 @@ import com.alvayonara.moviecatalogue.utils.FakeDataDummy
 import com.alvayonara.moviecatalogue.utils.LiveDataTestUtil
 import com.alvayonara.moviecatalogue.utils.PagedListUtil
 import com.alvayonara.moviecatalogue.vo.Resource
-import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

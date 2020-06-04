@@ -31,7 +31,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>(
         }
     }
 
-    protected fun onFetchFailed() {}
+    protected open fun onFetchFailed() {}
 
     protected abstract fun loadFromDB(): LiveData<ResultType>
 

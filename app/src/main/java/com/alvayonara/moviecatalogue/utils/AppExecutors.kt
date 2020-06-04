@@ -21,7 +21,7 @@ class AppExecutors @VisibleForTesting constructor(
         private const val THREAD_COUNT = 3
     }
 
-    constructor(): this(
+    constructor() : this(
         Executors.newSingleThreadExecutor(),
         Executors.newFixedThreadPool(THREAD_COUNT),
         MainThreadExecutor()
@@ -33,7 +33,7 @@ class AppExecutors @VisibleForTesting constructor(
 
     fun mainThread(): Executor = mainThread
 
-    private class MainThreadExecutor: Executor{
+    private class MainThreadExecutor : Executor {
 
         private val mainThreadHandler = Handler(Looper.getMainLooper())
 

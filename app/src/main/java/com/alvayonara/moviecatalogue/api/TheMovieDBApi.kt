@@ -1,6 +1,5 @@
 package com.alvayonara.moviecatalogue.api
 
-import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.source.remote.response.MovieResponse
 import com.alvayonara.moviecatalogue.data.source.remote.response.TvShowResponse
 import retrofit2.Call

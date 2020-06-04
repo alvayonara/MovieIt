@@ -50,7 +50,7 @@ class TvShowFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         progress_bar_tv_show.invisible()
-                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.error_message), Toast.LENGTH_SHORT).show()
                     }
                 }
             }

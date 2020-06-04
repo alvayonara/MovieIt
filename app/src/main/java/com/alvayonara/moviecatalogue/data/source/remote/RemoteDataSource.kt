@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alvayonara.moviecatalogue.BuildConfig
 import com.alvayonara.moviecatalogue.api.ApiRepository
-import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.source.remote.response.MovieResponse
 import com.alvayonara.moviecatalogue.data.source.remote.response.TvShowResponse
 import com.alvayonara.moviecatalogue.utils.EspressoIdlingResource
@@ -57,7 +56,10 @@ class RemoteDataSource {
                     Log.e("Movie Request Error: ", t.toString())
                 }
 
-                override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                override fun onResponse(
+                    call: Call<MovieResponse>,
+                    response: Response<MovieResponse>
+                ) {
                     movieResult.postValue(ApiResponse.success(response.body()!!))
                 }
             })

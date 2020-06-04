@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.moviecatalogue.BuildConfig
-import com.alvayonara.moviecatalogue.utils.DateConvert
 import com.alvayonara.moviecatalogue.R
-import com.alvayonara.moviecatalogue.utils.ToolbarConfig
 import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
+import com.alvayonara.moviecatalogue.utils.DateConvert
+import com.alvayonara.moviecatalogue.utils.ToolbarConfig
 import com.alvayonara.moviecatalogue.utils.invisible
 import com.alvayonara.moviecatalogue.utils.visible
 import com.alvayonara.moviecatalogue.viewmodel.ViewModelFactory
@@ -64,7 +64,7 @@ class DetailMovieActivity : AppCompatActivity() {
                                 progress_bar_tv_show.invisible()
                                 Toast.makeText(
                                     this,
-                                    "Terjadi kesalahan",
+                                    getString(R.string.error_message),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -133,7 +133,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     Status.ERROR -> {
                         Toast.makeText(
                             this,
-                            "Terjadi kesalahan",
+                            getString(R.string.error_message),
                             Toast.LENGTH_SHORT
                         ).show()
                     }

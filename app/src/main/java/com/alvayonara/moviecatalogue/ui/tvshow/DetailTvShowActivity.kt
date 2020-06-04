@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.moviecatalogue.BuildConfig
-import com.alvayonara.moviecatalogue.utils.DateConvert
 import com.alvayonara.moviecatalogue.R
-import com.alvayonara.moviecatalogue.utils.ToolbarConfig
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
+import com.alvayonara.moviecatalogue.utils.DateConvert
+import com.alvayonara.moviecatalogue.utils.ToolbarConfig
 import com.alvayonara.moviecatalogue.utils.invisible
 import com.alvayonara.moviecatalogue.utils.visible
 import com.alvayonara.moviecatalogue.viewmodel.ViewModelFactory
@@ -64,7 +64,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                                 progress_bar_tv_show.invisible()
                                 Toast.makeText(
                                     this,
-                                    "Terjadi kesalahan",
+                                    getString(R.string.error_message),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -119,10 +119,10 @@ class DetailTvShowActivity : AppCompatActivity() {
         this.menu = menu
         viewModel.tvShowDetail.observe(this, Observer { tvShow ->
             if (tvShow != null) {
-                when(tvShow.status) {
+                when (tvShow.status) {
                     Status.LOADING -> progress_bar_detail_tv_show.visible()
                     Status.SUCCESS -> {
-                        if (tvShow.data != null){
+                        if (tvShow.data != null) {
                             progress_bar_detail_tv_show.invisible()
                             val state = tvShow.data.favored
                             setFavoriteState(state)
@@ -131,7 +131,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                     Status.ERROR -> {
                         Toast.makeText(
                             this,
-                            "Terjadi kesalahan",
+                            getString(R.string.error_message),
                             Toast.LENGTH_SHORT
                         ).show()
                     }

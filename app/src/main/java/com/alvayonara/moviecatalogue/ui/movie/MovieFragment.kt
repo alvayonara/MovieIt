@@ -1,7 +1,6 @@
 package com.alvayonara.moviecatalogue.ui.movie
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +50,7 @@ class MovieFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         progress_bar_movie.invisible()
-                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.error_message), Toast.LENGTH_SHORT).show()
                     }
                 }
             }

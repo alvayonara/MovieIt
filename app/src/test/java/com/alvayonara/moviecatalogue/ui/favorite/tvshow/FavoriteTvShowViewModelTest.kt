@@ -6,14 +6,12 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
-import com.alvayonara.moviecatalogue.utils.FakeDataDummy
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
@@ -36,12 +34,12 @@ class FavoriteTvShowViewModelTest {
     private lateinit var pagedList: PagedList<TvShowEntity>
 
     @Before
-    fun setUp(){
+    fun setUp() {
         viewModel = FavoriteTvShowViewModel(catalogueRepository)
     }
 
     @Test
-    fun getFavoredTvShows(){
+    fun getFavoredTvShows() {
         val dummyFavoredTvShows = pagedList
         `when`(dummyFavoredTvShows.size).thenReturn(10)
         val tvShows = MutableLiveData<PagedList<TvShowEntity>>()

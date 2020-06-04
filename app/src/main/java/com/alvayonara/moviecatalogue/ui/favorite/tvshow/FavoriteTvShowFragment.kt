@@ -1,10 +1,10 @@
 package com.alvayonara.moviecatalogue.ui.favorite.tvshow
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,13 +13,13 @@ import com.alvayonara.moviecatalogue.ui.tvshow.TvShowAdapter
 import com.alvayonara.moviecatalogue.utils.invisible
 import com.alvayonara.moviecatalogue.utils.visible
 import com.alvayonara.moviecatalogue.viewmodel.ViewModelFactory
-import kotlinx.android.synthetic.main.activity_detail_tv_show.*
 import kotlinx.android.synthetic.main.fragment_tv_show.*
 import org.jetbrains.anko.support.v4.ctx
 
 class FavoriteTvShowFragment : Fragment() {
 
     internal lateinit var viewModel: FavoriteTvShowViewModel
+    private lateinit var tvShowAdapter: TvShowAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +39,7 @@ class FavoriteTvShowFragment : Fragment() {
     }
 
     private fun initView(viewModel: FavoriteTvShowViewModel) {
-        val tvShowAdapter = TvShowAdapter()
+        tvShowAdapter = TvShowAdapter()
 
         progress_bar_tv_show.visible()
 

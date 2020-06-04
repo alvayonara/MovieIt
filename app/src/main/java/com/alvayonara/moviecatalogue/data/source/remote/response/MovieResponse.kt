@@ -1,7 +1,6 @@
 package com.alvayonara.moviecatalogue.data.source.remote.response
 
 import android.os.Parcelable
-import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 

@@ -20,13 +20,11 @@ class TvShowAdapter internal constructor() :
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShowEntity>() {
-            override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
-                return oldItem.tvShowId == newItem.tvShowId
-            }
+            override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean =
+                oldItem.tvShowId == newItem.tvShowId
 
-            override fun areContentsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
-                return oldItem == newItem
-            }
+            override fun areContentsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean =
+                oldItem == newItem
         }
     }
 

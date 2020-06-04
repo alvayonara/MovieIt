@@ -3,11 +3,10 @@ package com.alvayonara.moviecatalogue.ui.tvshow
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
+import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
 import com.alvayonara.moviecatalogue.vo.Resource
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +34,7 @@ class DetailTvShowViewModelTest {
     @Before
     fun setUp() {
         viewModel = DetailTvShowViewModel(catalogueRepository)
-        viewModel.setSelectedTvShow(tvShowId!!)
+        viewModel.setSelectedTvShow(tvShowId)
     }
 
     @Test

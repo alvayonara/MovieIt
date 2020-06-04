@@ -1,8 +1,6 @@
 package com.alvayonara.moviecatalogue.data.source.remote.response
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
-import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 

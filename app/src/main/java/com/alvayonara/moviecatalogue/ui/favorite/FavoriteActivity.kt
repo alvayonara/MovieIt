@@ -1,13 +1,11 @@
 package com.alvayonara.moviecatalogue.ui.favorite
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.alvayonara.moviecatalogue.R
-import com.alvayonara.moviecatalogue.ui.home.HomeSectionPageAdapter
 import com.alvayonara.moviecatalogue.utils.ToolbarConfig
 import kotlinx.android.synthetic.main.activity_favorite.*
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_home.toolbar
 
 class FavoriteActivity : AppCompatActivity() {
