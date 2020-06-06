@@ -23,9 +23,7 @@
         <activity
             android:name=".ui.movie.DetailMovieActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.home.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,4 +31,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
