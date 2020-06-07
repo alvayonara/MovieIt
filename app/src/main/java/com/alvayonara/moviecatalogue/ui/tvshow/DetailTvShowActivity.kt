@@ -20,8 +20,6 @@ import com.alvayonara.moviecatalogue.vo.Status
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_tv_show.*
-import kotlinx.android.synthetic.main.activity_home.toolbar
-import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 class DetailTvShowActivity : AppCompatActivity() {
 
@@ -61,7 +59,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                                 }
                             }
                             Status.ERROR -> {
-                                progress_bar_tv_show.invisible()
+                                progress_bar_detail_tv_show.invisible()
                                 Toast.makeText(
                                     this,
                                     getString(R.string.error_message),
@@ -77,7 +75,7 @@ class DetailTvShowActivity : AppCompatActivity() {
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Tv Show Details"
+        supportActionBar?.title = "TV Show Details"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         ToolbarConfig.setWhiteStatusBarColor(this)

@@ -13,12 +13,16 @@ import com.alvayonara.moviecatalogue.ui.movie.DetailMovieActivity.Companion.EXTR
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_row_movie.view.*
+import kotlinx.android.synthetic.main.item_row_movie_horizontal.view.*
 import org.jetbrains.anko.startActivity
 
-class MovieAdapter internal constructor() :
+class MovieAdapter constructor(private val typeView: Int) :
     PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(DIFF_CALLBACK) {
 
     companion object {
+        const val TYPE_LIST = 1
+        const val TYPE_GRID = 2
+
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
             override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
                 oldItem.movieId == newItem.movieId
@@ -31,33 +35,61 @@ class MovieAdapter internal constructor() :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MovieViewHolder = MovieViewHolder(
-        LayoutInflater.from(parent.context).inflate(
-            R.layout.item_row_movie,
-            parent,
-            false
-        )
-    )
+    ): MovieViewHolder {
+        return when (typeView) {
+            TYPE_LIST -> MovieViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_row_movie,
+                    parent,
+                    false
+                )
+            )
+            TYPE_GRID -> MovieViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_row_movie_horizontal,
+                    parent,
+                    false
+                )
+            )
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
+    }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val course = getItem(position)
         if (course != null) {
-            holder.bindItem(course)
+            holder.bindItem(course, typeView)
         }
     }
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItem(movie: MovieEntity) {
+        fun bindItem(movie: MovieEntity, typeView: Int) {
             with(itemView) {
-                title_movie_card.text = movie.title
-                overview_movie_card.text = movie.overview
-                Glide.with(context)
-                    .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)
-                    .apply(
-                        RequestOptions.placeholderOf(R.drawable.ic_loading)
-                            .error(R.drawable.ic_error)
-                    )
-                    .into(poster_movie_card)
+                when (typeView) {
+                    TYPE_LIST -> {
+                        title_movie_card.text = movie.title
+                        overview_movie_card.text = movie.overview
+                        Glide.with(context)
+                            .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)
+                            .apply(
+                                RequestOptions.placeholderOf(R.drawable.ic_loading)
+                                    .error(R.drawable.ic_error)
+                            )
+                            .into(poster_movie_card)
+                    }
+                    TYPE_GRID -> {
+                        title_movie_card_horizontal.text = movie.title
+                        rating_movie_card_horizontal.rating = (movie.averageVote.toFloat() / 2)
+                        Glide.with(context)
+                            .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)
+                            .apply(
+                                RequestOptions.placeholderOf(R.drawable.ic_loading)
+                                    .error(R.drawable.ic_error)
+                            )
+                            .into(poster_movie_card_horizontal)
+                    }
+                    else -> throw IllegalArgumentException("Invalid view type")
+                }
 
                 setOnClickListener {
                     context.startActivity<DetailMovieActivity>(EXTRA_MOVIE_ID to movie.movieId)

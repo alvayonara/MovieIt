@@ -7,11 +7,9 @@ import com.alvayonara.moviecatalogue.data.CatalogueDataSource
 import com.alvayonara.moviecatalogue.data.NetworkBoundResource
 import com.alvayonara.moviecatalogue.data.source.local.LocalDataSource
 import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
-import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.source.remote.ApiResponse
 import com.alvayonara.moviecatalogue.data.source.remote.RemoteDataSource
 import com.alvayonara.moviecatalogue.data.source.remote.response.MovieResponse
-import com.alvayonara.moviecatalogue.data.source.remote.response.TvShowResponse
 import com.alvayonara.moviecatalogue.utils.AppExecutors
 import com.alvayonara.moviecatalogue.vo.Resource
 
@@ -22,7 +20,7 @@ class FakeCatalogueRepository(
 ) :
     CatalogueDataSource {
 
-    override fun getAllMovies(): LiveData<Resource<PagedList<MovieEntity>>> {
+    override fun getDiscoverMovies(): LiveData<Resource<PagedList<MovieEntity>>> {
         return object :
             NetworkBoundResource<PagedList<MovieEntity>, List<MovieResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {

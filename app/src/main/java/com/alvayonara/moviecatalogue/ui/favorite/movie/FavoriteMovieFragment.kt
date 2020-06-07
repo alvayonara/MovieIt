@@ -10,10 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.moviecatalogue.R
 import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter
+import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter.Companion.TYPE_LIST
 import com.alvayonara.moviecatalogue.utils.invisible
 import com.alvayonara.moviecatalogue.utils.visible
 import com.alvayonara.moviecatalogue.viewmodel.ViewModelFactory
-import kotlinx.android.synthetic.main.fragment_movie.*
+import kotlinx.android.synthetic.main.fragment_favorite.*
+import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 import org.jetbrains.anko.support.v4.ctx
 
 class FavoriteMovieFragment : Fragment() {
@@ -24,7 +26,7 @@ class FavoriteMovieFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_movie, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_favorite_movie, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,21 +37,21 @@ class FavoriteMovieFragment : Fragment() {
             factory
         )[FavoriteMovieViewModel::class.java]
 
-        initView(viewModel)
+//        initView(viewModel)
     }
 
     private fun initView(viewModel: FavoriteMovieViewModel) {
-        movieAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter(TYPE_LIST)
 
-        progress_bar_movie.visible()
+//        progress_bar_favorite_movie.visible()
 
-        viewModel.getFavoredMovies().observe(this, Observer { movies ->
-            progress_bar_movie.invisible()
+        viewModel.getFavoredMovies().observe(viewLifecycleOwner, Observer { movies ->
+//            progress_bar_favorite_movie.invisible()
             movieAdapter.submitList(movies)
             movieAdapter.notifyDataSetChanged()
         })
 
-        with(rv_movie) {
+        with(rv_movie_favorite) {
             layoutManager = LinearLayoutManager(ctx)
             adapter = movieAdapter
         }

@@ -7,7 +7,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:clipToPadding="false"
         android:scrollbars="none"
@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Movies"
+                    android:text="Discover"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
@@ -73,7 +73,6 @@
                         android:layout_width="?attr/actionBarSize"
                         android:layout_height="?attr/actionBarSize"
                         android:background="#f2f2f2"
-                        android:clickable="true"
                         android:tint="#666666"
                         app:srcCompat="@drawable/ic_search_grey" />
 
@@ -84,13 +83,8 @@
                         android:layout_weight="1"
                         android:background="#f2f2f2"
                         android:hint="Search Movie"
-                        android:imeOptions="actionSearch"
                         android:maxLines="1"
-                        android:singleLine="true">
-
-                        <requestFocus />
-
-                    </EditText>
+                        android:singleLine="true" />
 
                     <View
                         android:layout_width="@dimen/spacing_medium"
@@ -102,7 +96,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_mlarge" />
+                android:layout_height="@dimen/spacing_medium" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -119,7 +113,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Trending"
+                        android:text="Movies"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/grey_80"
                         android:textStyle="bold" />
@@ -130,8 +124,12 @@
                         android:layout_weight="1" />
 
                     <TextView
+                        android:id="@+id/see_all_movies"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:text="See All"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                         android:textColor="#999999" />
@@ -162,52 +160,82 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_large"
-                android:layout_marginRight="@dimen/spacing_large"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Discover"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/grey_80"
-                    android:textStyle="bold" />
+                    android:layout_marginLeft="@dimen/spacing_large"
+                    android:layout_marginRight="@dimen/spacing_large"
+                    android:orientation="horizontal">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TV Shows"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey_80"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/see_all_tv_shows"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="See All"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:textColor="#999999" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_movie_discover_horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="See All"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                    android:textColor="#999999" />
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/spacing_middle"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingRight="@dimen/spacing_middle"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    android:scrollbars="none"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_row_movie_horizontal" />
 
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_movie_discover_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_middle"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/spacing_middle"
-                android:paddingTop="@dimen/spacing_medium"
-                android:paddingRight="@dimen/spacing_middle"
-                android:paddingBottom="@dimen/spacing_medium"
-                android:scrollbars="none"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_row_movie_horizontal" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="@dimen/spacing_large" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/actionBarSize" />
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progress_bar_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:indeterminateTint="#37474F"
+            android:indeterminateTintMode="src_atop" />
+    </RelativeLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

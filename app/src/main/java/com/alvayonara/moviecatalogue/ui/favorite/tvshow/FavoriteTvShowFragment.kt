@@ -10,10 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.moviecatalogue.R
 import com.alvayonara.moviecatalogue.ui.tvshow.TvShowAdapter
+import com.alvayonara.moviecatalogue.ui.tvshow.TvShowAdapter.Companion.TYPE_LIST
 import com.alvayonara.moviecatalogue.utils.invisible
 import com.alvayonara.moviecatalogue.utils.visible
 import com.alvayonara.moviecatalogue.viewmodel.ViewModelFactory
-import kotlinx.android.synthetic.main.fragment_tv_show.*
+import kotlinx.android.synthetic.main.fragment_favorite_tv_show.*
 import org.jetbrains.anko.support.v4.ctx
 
 class FavoriteTvShowFragment : Fragment() {
@@ -24,7 +25,7 @@ class FavoriteTvShowFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_tv_show, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_favorite_tv_show, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,17 +40,17 @@ class FavoriteTvShowFragment : Fragment() {
     }
 
     private fun initView(viewModel: FavoriteTvShowViewModel) {
-        tvShowAdapter = TvShowAdapter()
+        tvShowAdapter = TvShowAdapter(TYPE_LIST)
 
-        progress_bar_tv_show.visible()
+        progress_bar_tv_show_favorite.visible()
 
-        viewModel.getFavoredTvShows().observe(this, Observer { tvShows ->
-            progress_bar_tv_show.invisible()
+        viewModel.getFavoredTvShows().observe(viewLifecycleOwner, Observer { tvShows ->
+            progress_bar_tv_show_favorite.invisible()
             tvShowAdapter.submitList(tvShows)
             tvShowAdapter.notifyDataSetChanged()
         })
 
-        with(rv_tv_show) {
+        with(rv_tv_show_favorite) {
             layoutManager = LinearLayoutManager(ctx)
             adapter = tvShowAdapter
         }

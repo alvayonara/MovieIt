@@ -9,16 +9,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alvayonara.moviecatalogue.BuildConfig
 import com.alvayonara.moviecatalogue.R
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
+import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter
 import com.alvayonara.moviecatalogue.ui.tvshow.DetailTvShowActivity.Companion.EXTRA_TV_SHOW_ID
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_row_tv_show.view.*
+import kotlinx.android.synthetic.main.item_row_tv_show_horizontal.view.*
 import org.jetbrains.anko.startActivity
 
-class TvShowAdapter internal constructor() :
+class TvShowAdapter constructor(private val typeView: Int) :
     PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHolder>(DIFF_CALLBACK) {
 
     companion object {
+        const val TYPE_LIST = 1
+        const val TYPE_GRID = 2
+
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShowEntity>() {
             override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean =
                 oldItem.tvShowId == newItem.tvShowId
@@ -31,29 +36,60 @@ class TvShowAdapter internal constructor() :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): TvShowViewHolder = TvShowViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_row_tv_show, parent, false)
-    )
+    ): TvShowViewHolder {
+        return when (typeView) {
+            MovieAdapter.TYPE_LIST -> TvShowViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_row_tv_show,
+                    parent,
+                    false
+                )
+            )
+            MovieAdapter.TYPE_GRID -> TvShowViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_row_tv_show_horizontal,
+                    parent,
+                    false
+                )
+            )
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
+    }
 
     override fun onBindViewHolder(holder: TvShowViewHolder, position: Int) {
         val course = getItem(position)
         if (course != null) {
-            holder.bindItem(course)
+            holder.bindItem(course, typeView)
         }
     }
 
     class TvShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItem(tvShow: TvShowEntity) {
+        fun bindItem(tvShow: TvShowEntity, typeView: Int) {
             with(itemView) {
-                title_tv_show_card.text = tvShow.title
-                overview_tv_show_card.text = tvShow.overview
-                Glide.with(context)
-                    .load(BuildConfig.BASE_URL_TMDB_POSTER + tvShow.posterPath)
-                    .apply(
-                        RequestOptions.placeholderOf(R.drawable.ic_loading)
-                            .error(R.drawable.ic_error)
-                    )
-                    .into(poster_tv_show_card)
+                when (typeView) {
+                    TYPE_LIST -> {
+                        title_tv_show_card.text = tvShow.title
+                        overview_tv_show_card.text = tvShow.overview
+                        Glide.with(context)
+                            .load(BuildConfig.BASE_URL_TMDB_POSTER + tvShow.posterPath)
+                            .apply(
+                                RequestOptions.placeholderOf(R.drawable.ic_loading)
+                                    .error(R.drawable.ic_error)
+                            )
+                            .into(poster_tv_show_card)
+                    }
+                    TYPE_GRID -> {
+                        title_tv_show_card_horizontal.text = tvShow.title
+                        rating_tv_show_card_horizontal.rating = (tvShow.averageVote.toFloat() / 2)
+                        Glide.with(context)
+                            .load(BuildConfig.BASE_URL_TMDB_POSTER + tvShow.posterPath)
+                            .apply(
+                                RequestOptions.placeholderOf(R.drawable.ic_loading)
+                                    .error(R.drawable.ic_error)
+                            )
+                            .into(poster_tv_show_card_horizontal)
+                    }
+                }
 
                 setOnClickListener {
                     context.startActivity<DetailTvShowActivity>(EXTRA_TV_SHOW_ID to tvShow.tvShowId)

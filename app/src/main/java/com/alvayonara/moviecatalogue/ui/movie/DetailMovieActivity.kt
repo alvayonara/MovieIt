@@ -20,8 +20,6 @@ import com.alvayonara.moviecatalogue.vo.Status
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_movie.*
-import kotlinx.android.synthetic.main.activity_home.toolbar
-import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 class DetailMovieActivity : AppCompatActivity() {
 
@@ -61,7 +59,7 @@ class DetailMovieActivity : AppCompatActivity() {
                                 }
                             }
                             Status.ERROR -> {
-                                progress_bar_tv_show.invisible()
+                                progress_bar_detail_movie.invisible()
                                 Toast.makeText(
                                     this,
                                     getString(R.string.error_message),

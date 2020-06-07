@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import com.alvayonara.moviecatalogue.data.source.local.LocalDataSource
 import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
-import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.data.source.remote.RemoteDataSource
 import com.alvayonara.moviecatalogue.utils.AppExecutors
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
@@ -41,7 +40,7 @@ class CatalogueRepositoryTest {
         val movieSourceFactory =
             Mockito.mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
         `when`(local.getAllMovies()).thenReturn(movieSourceFactory)
-        catalogRepository.getAllMovies()
+        catalogRepository.getDiscoverMovies()
 
         val movieEntities =
             Resource.success(PagedListUtil.mockPagedList(FakeDataDummy.generateRemoteDummyMovies()))

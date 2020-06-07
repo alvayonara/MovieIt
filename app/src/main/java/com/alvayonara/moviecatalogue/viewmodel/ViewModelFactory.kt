@@ -7,6 +7,7 @@ import com.alvayonara.moviecatalogue.data.CatalogueRepository
 import com.alvayonara.moviecatalogue.di.Injection
 import com.alvayonara.moviecatalogue.ui.favorite.movie.FavoriteMovieViewModel
 import com.alvayonara.moviecatalogue.ui.favorite.tvshow.FavoriteTvShowViewModel
+import com.alvayonara.moviecatalogue.ui.home.HomeViewModel
 import com.alvayonara.moviecatalogue.ui.movie.DetailMovieViewModel
 import com.alvayonara.moviecatalogue.ui.movie.MovieViewModel
 import com.alvayonara.moviecatalogue.ui.tvshow.DetailTvShowViewModel
@@ -28,6 +29,9 @@ class ViewModelFactory private constructor(private val catalogueRepository: Cata
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+                HomeViewModel(catalogueRepository) as T
+            }
             modelClass.isAssignableFrom(MovieViewModel::class.java) -> {
                 MovieViewModel(catalogueRepository) as T
             }
@@ -41,7 +45,9 @@ class ViewModelFactory private constructor(private val catalogueRepository: Cata
                 DetailTvShowViewModel(catalogueRepository) as T
             }
             modelClass.isAssignableFrom(FavoriteMovieViewModel::class.java) -> {
-                FavoriteMovieViewModel(catalogueRepository) as T
+                FavoriteMovieViewModel(
+                    catalogueRepository
+                ) as T
             }
             modelClass.isAssignableFrom(FavoriteTvShowViewModel::class.java) -> {
                 FavoriteTvShowViewModel(catalogueRepository) as T

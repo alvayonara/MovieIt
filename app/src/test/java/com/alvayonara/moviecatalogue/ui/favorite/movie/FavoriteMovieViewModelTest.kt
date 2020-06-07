@@ -35,7 +35,10 @@ class FavoriteMovieViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = FavoriteMovieViewModel(catalogueRepository)
+        viewModel =
+            FavoriteMovieViewModel(
+                catalogueRepository
+            )
     }
 
     @Test

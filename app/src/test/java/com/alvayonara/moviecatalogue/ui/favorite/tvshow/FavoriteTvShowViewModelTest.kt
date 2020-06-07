@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
-import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
