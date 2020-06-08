@@ -79,7 +79,7 @@ class MovieAdapter constructor(private val typeView: Int) :
                     }
                     TYPE_GRID -> {
                         title_movie_card_horizontal.text = movie.title
-                        rating_movie_card_horizontal.rating = (movie.averageVote.toFloat() / 2)
+                        rating_movie_card_horizontal.rating = movie.averageVote!!.toFloat() / 2
                         Glide.with(context)
                             .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)
                             .apply(

@@ -9,7 +9,7 @@ import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 @Dao
 interface CatalogueDao {
 
-    @Query("SELECT * FROM movie")
+    @Query("SELECT * FROM movie WHERE search=0")
     fun getMovies(): DataSource.Factory<Int, MovieEntity>
 
     @Query("SELECT * FROM movie WHERE favored=1")
@@ -18,6 +18,9 @@ interface CatalogueDao {
     @Transaction
     @Query("SELECT * FROM movie WHERE movieId = :movieId")
     fun getMovieById(movieId: String): LiveData<MovieEntity>
+
+    @Query("SELECT * FROM movie WHERE title LIKE :title AND search=1")
+    fun getMovieSearch(title: String): DataSource.Factory<Int, MovieEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovies(movies: List<MovieEntity>)

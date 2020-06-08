@@ -13,6 +13,7 @@ import com.alvayonara.moviecatalogue.R
 import com.alvayonara.moviecatalogue.ui.movie.MovieActivity
 import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter
 import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter.Companion.TYPE_GRID
+import com.alvayonara.moviecatalogue.ui.search.SearchActivity
 import com.alvayonara.moviecatalogue.ui.tvshow.TvShowActivity
 import com.alvayonara.moviecatalogue.ui.tvshow.TvShowAdapter
 import com.alvayonara.moviecatalogue.utils.Tools
@@ -30,9 +31,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.fragment_home, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +45,10 @@ class HomeFragment : Fragment() {
         initToolbar()
         initViewMovies(viewModel)
         initViewTvShows(viewModel)
+
+        edt_search_bar.setOnClickListener {
+            context?.startActivity<SearchActivity>()
+        }
 
         see_all_movies.setOnClickListener {
             context?.startActivity<MovieActivity>()

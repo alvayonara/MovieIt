@@ -14,7 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.settings.SettingsAboutActivity"></activity>
+        <activity android:name=".ui.search.DetailMovieSearchActivity"></activity>
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.settings.SettingsAboutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.tvshow.TvShowActivity"
             android:theme="@style/AppTheme.NoActionBar" />

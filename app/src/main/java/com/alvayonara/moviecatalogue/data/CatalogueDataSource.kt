@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
+import com.alvayonara.moviecatalogue.data.source.remote.response.MovieResponse
 import com.alvayonara.moviecatalogue.vo.Resource
 
 interface CatalogueDataSource {
@@ -23,4 +24,6 @@ interface CatalogueDataSource {
     fun getFavoredTvShows(): LiveData<PagedList<TvShowEntity>>
 
     fun setTvShowFavorite(tvShow: TvShowEntity, state: Boolean)
+
+    fun getMovieSearch(query: String): LiveData<Resource<PagedList<MovieEntity>>>
 }

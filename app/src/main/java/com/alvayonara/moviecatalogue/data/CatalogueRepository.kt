@@ -99,7 +99,9 @@ class CatalogueRepository private constructor(
                     data.releaseDate,
                     data.voteCount,
                     data.popularity,
-                    data.averageVote
+                    data.averageVote,
+                    false,
+                    search = true
                 )
                 localDataSource.updateMovie(movie)
             }
@@ -165,26 +167,12 @@ class CatalogueRepository private constructor(
                 localDataSource.getTvShowById(tvShowId)
 
             override fun shouldFetch(data: TvShowEntity?): Boolean =
-                data == null
+                true
 
             override fun createCall(): LiveData<ApiResponse<TvShowResponse>> =
                 remoteDataSource.getTvShowById(tvShowId)
 
-            override fun saveCallResult(data: TvShowResponse) {
-                val tvShow = TvShowEntity(
-                    data.tvShowId,
-                    data.title,
-                    data.originalTitle,
-                    data.originalLanguage,
-                    data.posterPath,
-                    data.overview,
-                    data.releaseDate,
-                    data.voteCount,
-                    data.popularity,
-                    data.averageVote
-                )
-                localDataSource.updateTvShow(tvShow)
-            }
+            override fun saveCallResult(data: TvShowResponse) {}
         }.asLiveData()
     }
 
@@ -199,4 +187,46 @@ class CatalogueRepository private constructor(
 
     override fun setTvShowFavorite(tvShow: TvShowEntity, state: Boolean) =
         appExecutors.diskIO().execute { localDataSource.setTvShowFavorite(tvShow, state) }
+
+    override fun getMovieSearch(query: String): LiveData<Resource<PagedList<MovieEntity>>> {
+        return object :
+            NetworkBoundResource<PagedList<MovieEntity>, List<MovieResponse>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(5)
+                    .setPageSize(5)
+                    .build()
+                return LivePagedListBuilder(localDataSource.getMovieSearch(query), config).build()
+            }
+
+            override fun shouldFetch(data: PagedList<MovieEntity>?): Boolean =
+                true
+
+            override fun createCall(): LiveData<ApiResponse<List<MovieResponse>>> =
+                remoteDataSource.getMovieSearch(query)
+
+            override fun saveCallResult(data: List<MovieResponse>) {
+                val movieList = ArrayList<MovieEntity>()
+                for (response in data) {
+                    val movie = MovieEntity(
+                        response.movieId,
+                        response.title,
+                        response.originalTitle,
+                        response.originalLanguage,
+                        response.posterPath,
+                        response.overview,
+                        response.releaseDate,
+                        response.voteCount,
+                        response.popularity,
+                        response.averageVote,
+                        false,
+                        search = true
+                    )
+                    movieList.add(movie)
+                }
+                localDataSource.insertMovies(movieList)
+            }
+        }.asLiveData()
+    }
 }

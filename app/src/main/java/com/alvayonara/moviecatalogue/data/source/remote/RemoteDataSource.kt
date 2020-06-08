@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alvayonara.moviecatalogue.BuildConfig
 import com.alvayonara.moviecatalogue.api.ApiRepository
+import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.data.source.remote.response.MovieResponse
 import com.alvayonara.moviecatalogue.data.source.remote.response.TvShowResponse
 import com.alvayonara.moviecatalogue.utils.EspressoIdlingResource
@@ -112,5 +113,28 @@ class RemoteDataSource {
         EspressoIdlingResource.decrement()
 
         return tvShowResult
+    }
+
+    fun getMovieSearch(query: String): LiveData<ApiResponse<List<MovieResponse>>> {
+        EspressoIdlingResource.increment()
+        val movieResults = MutableLiveData<ApiResponse<List<MovieResponse>>>()
+
+        ApiRepository().theMovieDBApi.getMovieSearch(BuildConfig.TMDB_API_KEY, LANGUAGE, query)
+            .enqueue(object : Callback<MovieResponse> {
+                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                    Log.e("Movie Request Error: ", t.toString())
+                }
+
+                override fun onResponse(
+                    call: Call<MovieResponse>,
+                    response: Response<MovieResponse>
+                ) {
+                    movieResults.postValue(ApiResponse.success(response.body()!!.movies))
+                }
+            })
+
+        EspressoIdlingResource.decrement()
+
+        return movieResults
     }
 }

@@ -10,6 +10,7 @@ import com.alvayonara.moviecatalogue.ui.favorite.tvshow.FavoriteTvShowViewModel
 import com.alvayonara.moviecatalogue.ui.home.HomeViewModel
 import com.alvayonara.moviecatalogue.ui.movie.DetailMovieViewModel
 import com.alvayonara.moviecatalogue.ui.movie.MovieViewModel
+import com.alvayonara.moviecatalogue.ui.search.SearchViewModel
 import com.alvayonara.moviecatalogue.ui.tvshow.DetailTvShowViewModel
 import com.alvayonara.moviecatalogue.ui.tvshow.TvShowViewModel
 
@@ -51,6 +52,9 @@ class ViewModelFactory private constructor(private val catalogueRepository: Cata
             }
             modelClass.isAssignableFrom(FavoriteTvShowViewModel::class.java) -> {
                 FavoriteTvShowViewModel(catalogueRepository) as T
+            }
+            modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
+                SearchViewModel(catalogueRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

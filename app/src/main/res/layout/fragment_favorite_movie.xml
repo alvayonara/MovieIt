@@ -52,7 +52,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No movie favorite yet"
+            android:text="No movie favorites yet"
             android:textAlignment="center"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
             android:textColor="#263238" />

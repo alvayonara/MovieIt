@@ -34,4 +34,11 @@ interface TheMovieDBApi {
         @Query("api_key") api: String?,
         @Query("language") language: String?
     ): Call<TvShowResponse>
+
+    @GET("3/search/movie")
+    fun getMovieSearch(
+        @Query("api_key") api: String?,
+        @Query("language") language: String?,
+        @Query("query") query: String?
+    ): Call<MovieResponse>
 }

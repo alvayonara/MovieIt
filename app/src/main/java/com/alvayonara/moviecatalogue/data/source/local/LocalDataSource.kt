@@ -29,6 +29,8 @@ class LocalDataSource private constructor(private val mCatalogueDao: CatalogueDa
 
     fun getMovieById(movieId: String): LiveData<MovieEntity> = mCatalogueDao.getMovieById(movieId)
 
+    fun getMovieSearch(query: String): DataSource.Factory<Int, MovieEntity> = mCatalogueDao.getMovieSearch(query)
+
     fun insertMovies(movies: List<MovieEntity>) = mCatalogueDao.insertMovies(movies)
 
     fun updateMovie(movie: MovieEntity) = mCatalogueDao.updateMovie(movie)
