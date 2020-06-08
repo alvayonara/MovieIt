@@ -1,21 +1,17 @@
 package com.alvayonara.moviecatalogue.ui.home
 
-import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.moviecatalogue.R
-import com.alvayonara.moviecatalogue.ui.favorite.FavoriteFragment
-import com.alvayonara.moviecatalogue.ui.favorite.movie.FavoriteMovieFragment
-import com.alvayonara.moviecatalogue.ui.movie.*
+import com.alvayonara.moviecatalogue.ui.movie.MovieActivity
+import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter
 import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter.Companion.TYPE_GRID
 import com.alvayonara.moviecatalogue.ui.tvshow.TvShowActivity
 import com.alvayonara.moviecatalogue.ui.tvshow.TvShowAdapter
@@ -89,7 +85,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        with(rv_movie_trending_horizontal) {
+        with(rv_movie_horizontal) {
             layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
             adapter = movieAdapter
         }
@@ -121,7 +117,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        with(rv_movie_discover_horizontal) {
+        with(rv_tv_show_horizontal) {
             layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
             adapter = tvShowAdapter
         }

@@ -1,13 +1,89 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.alvayonara.moviecatalogue.ui.settings.SettingsFragment">
+    android:scrollbars="none"
+    android:scrollingCache="true">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/spacing_large">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_large"
+            android:text="Settings"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_middle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/spacing_middle">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:text="More"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="#263238"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/lyt_settings_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/spacing_xxlarge"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/spacing_large"
+                    android:paddingRight="@dimen/spacing_large"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="About"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="#999999" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#e6e6e6" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_middle" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

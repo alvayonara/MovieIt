@@ -2,7 +2,7 @@
     <string name="app_name">MovieCatalogue</string>
 
     <string name="tab_text_1">Movies</string>
-    <string name="tab_text_2">Tv Shows</string>
+    <string name="tab_text_2">TV Shows</string>
     <string name="vote_count">Vote Count</string>
     <string name="original_language">Original Language</string>
     <string name="popularity">Popularity</string>

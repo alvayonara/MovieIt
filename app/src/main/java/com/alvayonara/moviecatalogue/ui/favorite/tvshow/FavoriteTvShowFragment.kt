@@ -42,12 +42,18 @@ class FavoriteTvShowFragment : Fragment() {
     private fun initView(viewModel: FavoriteTvShowViewModel) {
         tvShowAdapter = TvShowAdapter(TYPE_LIST)
 
+        lyt_empty_tv_show_favorite.invisible()
         progress_bar_tv_show_favorite.visible()
 
         viewModel.getFavoredTvShows().observe(viewLifecycleOwner, Observer { tvShows ->
             progress_bar_tv_show_favorite.invisible()
-            tvShowAdapter.submitList(tvShows)
-            tvShowAdapter.notifyDataSetChanged()
+
+            if (tvShows.isNotEmpty()){
+                tvShowAdapter.submitList(tvShows)
+                tvShowAdapter.notifyDataSetChanged()
+            } else {
+                lyt_empty_tv_show_favorite.visible()
+            }
         })
 
         with(rv_tv_show_favorite) {

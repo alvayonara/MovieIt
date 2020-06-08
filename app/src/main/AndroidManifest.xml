@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.settings.SettingsAboutActivity"></activity>
         <activity
             android:name=".ui.tvshow.TvShowActivity"
             android:theme="@style/AppTheme.NoActionBar" />
