@@ -9,5 +9,5 @@ import com.alvayonara.moviecatalogue.vo.Resource
 
 class SearchViewModel(private val catalogueRepository: CatalogueRepository): ViewModel() {
 
-    fun getMovieSearch(query: String): LiveData<Resource<PagedList<MovieEntity>>> = catalogueRepository.getMovieSearch(query)
+    fun getMovieSearch(query: String): LiveData<Resource<List<MovieEntity>>> = catalogueRepository.getMovieSearch(query)
 }

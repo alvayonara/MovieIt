@@ -25,5 +25,5 @@ interface CatalogueDataSource {
 
     fun setTvShowFavorite(tvShow: TvShowEntity, state: Boolean)
 
-    fun getMovieSearch(query: String): LiveData<Resource<PagedList<MovieEntity>>>
+    fun getMovieSearch(query: String): LiveData<Resource<List<MovieEntity>>>
 }

@@ -20,7 +20,7 @@ interface CatalogueDao {
     fun getMovieById(movieId: String): LiveData<MovieEntity>
 
     @Query("SELECT * FROM movie WHERE title LIKE :title AND search=1")
-    fun getMovieSearch(title: String): DataSource.Factory<Int, MovieEntity>
+    fun getMovieSearch(title: String): LiveData<List<MovieEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovies(movies: List<MovieEntity>)

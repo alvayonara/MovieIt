@@ -3,6 +3,7 @@ package com.alvayonara.moviecatalogue.ui.search
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -17,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.moviecatalogue.R
+import com.alvayonara.moviecatalogue.data.source.local.entity.MovieEntity
 import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter
 import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter.Companion.TYPE_LIST
 import com.alvayonara.moviecatalogue.utils.ToolbarConfig
@@ -29,8 +31,9 @@ import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var movieAdapter: MovieAdapter
+    private lateinit var searchAdapter: SearchAdapter
     private lateinit var query: String
+    private var listMovies = ArrayList<MovieEntity>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +59,15 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initComponent(viewModel: SearchViewModel) {
-        movieAdapter = MovieAdapter(TYPE_LIST)
+        searchAdapter = SearchAdapter()
 
-        btn_clear_search.setOnClickListener { edt_search.setText("") }
+        btn_clear_search.gone()
+        btn_clear_search.setOnClickListener {
+            edt_search.setText("")
+            clearRecyclerView()
+            lyt_not_found_search.gone()
+            lyt_search.visible()
+        }
 
         edt_search.addTextChangedListener(textWatcher)
         edt_search.setOnEditorActionListener(OnEditorActionListener { _, actionId, keyEvent ->
@@ -66,6 +75,10 @@ class SearchActivity : AppCompatActivity() {
                 || actionId == EditorInfo.IME_ACTION_DONE
                 || keyEvent.action == KeyEvent.ACTION_DOWN
                 || keyEvent.action == KeyEvent.KEYCODE_ENTER){
+
+                clearRecyclerView()
+                lyt_not_found_search.gone()
+
                 hideKeyboard()
                 searchAction(viewModel)
                 return@OnEditorActionListener true
@@ -74,7 +87,13 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
-    var textWatcher: TextWatcher = object : TextWatcher {
+    private fun clearRecyclerView(){
+        listMovies.clear()
+        searchAdapter.setMovies(listMovies)
+        searchAdapter.notifyDataSetChanged()
+    }
+
+    private var textWatcher: TextWatcher = object : TextWatcher {
         override fun onTextChanged(c: CharSequence, i: Int, i1: Int, i2: Int) {
             if (c.toString().trim { it <= ' ' }.isEmpty()) {
                 btn_clear_search.gone()
@@ -84,7 +103,13 @@ class SearchActivity : AppCompatActivity() {
         }
 
         override fun beforeTextChanged(c: CharSequence, i: Int, i1: Int, i2: Int) {}
-        override fun afterTextChanged(editable: Editable) {}
+        override fun afterTextChanged(editable: Editable) {
+            if (TextUtils.isEmpty(editable.toString().trim())) {
+                clearRecyclerView()
+                lyt_not_found_search.gone()
+                lyt_search.visible()
+            }
+        }
     }
 
     private fun hideKeyboard() {
@@ -98,7 +123,6 @@ class SearchActivity : AppCompatActivity() {
 
     private fun searchAction(viewModel: SearchViewModel) {
         lyt_search.gone()
-        rv_movie_search.gone()
         lyt_not_found_search.gone()
 
         query = edt_search.text.toString().trim()
@@ -112,19 +136,16 @@ class SearchActivity : AppCompatActivity() {
                         progress_bar_movie_search.invisible()
 
                         if (movies.data!!.isEmpty()) {
-                            rv_movie_search.gone()
                             lyt_not_found_search.visible()
                         } else {
-                            movieAdapter.notifyDataSetChanged()
-                            movieAdapter.submitList(movies.data)
-                            movieAdapter.notifyDataSetChanged()
                             lyt_not_found_search.gone()
-                            rv_movie_search.visible()
+                            searchAdapter.setMovies(movies.data)
+                            searchAdapter.notifyDataSetChanged()
                         }
                     }
                     Status.ERROR -> {
                         progress_bar_movie_search.invisible()
-                        Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_SHORT)
+                        Toast.makeText(this, "Please input keyword", Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
@@ -132,10 +153,11 @@ class SearchActivity : AppCompatActivity() {
 
             with(rv_movie_search) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = movieAdapter
+                adapter = searchAdapter
             }
         } else {
-            Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_SHORT)
+            lyt_search.visible()
+            Toast.makeText(this, "Please input keyword", Toast.LENGTH_SHORT)
                 .show()
         }
     }

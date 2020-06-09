@@ -188,19 +188,12 @@ class CatalogueRepository private constructor(
     override fun setTvShowFavorite(tvShow: TvShowEntity, state: Boolean) =
         appExecutors.diskIO().execute { localDataSource.setTvShowFavorite(tvShow, state) }
 
-    override fun getMovieSearch(query: String): LiveData<Resource<PagedList<MovieEntity>>> {
+    override fun getMovieSearch(query: String): LiveData<Resource<List<MovieEntity>>> {
         return object :
-            NetworkBoundResource<PagedList<MovieEntity>, List<MovieResponse>>(appExecutors) {
-            override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {
-                val config = PagedList.Config.Builder()
-                    .setEnablePlaceholders(false)
-                    .setInitialLoadSizeHint(5)
-                    .setPageSize(5)
-                    .build()
-                return LivePagedListBuilder(localDataSource.getMovieSearch(query), config).build()
-            }
+            NetworkBoundResource<List<MovieEntity>, List<MovieResponse>>(appExecutors) {
+            override fun loadFromDB(): LiveData<List<MovieEntity>> = localDataSource.getMovieSearch(query)
 
-            override fun shouldFetch(data: PagedList<MovieEntity>?): Boolean =
+            override fun shouldFetch(data: List<MovieEntity>?): Boolean =
                 true
 
             override fun createCall(): LiveData<ApiResponse<List<MovieResponse>>> =

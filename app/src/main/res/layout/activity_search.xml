@@ -34,7 +34,6 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:hint="Search Movie here"
-                    android:inputType="text"
                     android:imeOptions="actionSearch"
                     android:maxLines="1"
                     android:singleLine="true">
