@@ -3,6 +3,7 @@ package com.alvayonara.moviecatalogue.ui.movie
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,8 @@ import org.jetbrains.anko.startActivity
 class MovieAdapter constructor(private val typeView: Int) :
     PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(DIFF_CALLBACK) {
 
+    private val dataMovie = arrayListOf<MovieEntity>()
+
     companion object {
         const val TYPE_LIST = 1
         const val TYPE_GRID = 2
@@ -30,6 +33,26 @@ class MovieAdapter constructor(private val typeView: Int) :
             override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
                 oldItem == newItem
         }
+    }
+
+    override fun submitList(pagedList: PagedList<MovieEntity>?) {
+        pagedList?.addWeakCallback(listOf(), object : PagedList.Callback() {
+            override fun onChanged(position: Int, count: Int) {
+                dataMovie.clear()
+                dataMovie.addAll(pagedList)
+            }
+
+            override fun onInserted(position: Int, count: Int) {
+                dataMovie.clear()
+                dataMovie.addAll(pagedList)
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                dataMovie.clear()
+                dataMovie.addAll(pagedList)
+            }
+        })
+        super.submitList(pagedList)
     }
 
     override fun onCreateViewHolder(

@@ -34,6 +34,7 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:hint="Search Movie here"
+                    android:inputType="text"
                     android:imeOptions="actionSearch"
                     android:maxLines="1"
                     android:singleLine="true">
@@ -104,7 +105,7 @@
                 android:layout_marginTop="5dp"
                 android:text="Oops, Movies Not Found"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textColor="#263238"
+                android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <TextView
