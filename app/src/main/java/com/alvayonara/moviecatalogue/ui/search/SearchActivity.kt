@@ -130,6 +130,8 @@ class SearchActivity : AppCompatActivity() {
             viewModel.getMovieSearch("%$query%").observe(this, Observer { movies ->
                 when (movies.status) {
                     Status.LOADING -> {
+                        lyt_search.gone()
+                        lyt_not_found_search.gone()
                         progress_bar_movie_search.visible()
                     }
                     Status.SUCCESS -> {

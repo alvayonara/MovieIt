@@ -43,7 +43,6 @@ class FavoriteMovieFragment : Fragment() {
     private fun initView(viewModel: FavoriteMovieViewModel) {
         movieAdapter = MovieAdapter(TYPE_LIST)
 
-        lyt_empty_movie_favorite.invisible()
         progress_bar_movie_favorite.visible()
 
         viewModel.getFavoredMovies().observe(viewLifecycleOwner, Observer { movies ->

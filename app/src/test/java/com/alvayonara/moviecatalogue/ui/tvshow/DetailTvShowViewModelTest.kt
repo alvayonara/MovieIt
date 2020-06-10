@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.alvayonara.moviecatalogue.data.CatalogueRepository
+import com.alvayonara.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.alvayonara.moviecatalogue.utils.FakeDataDummy
 import com.alvayonara.moviecatalogue.vo.Resource
 import org.junit.Before

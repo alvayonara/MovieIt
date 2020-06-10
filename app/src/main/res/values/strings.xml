@@ -1,23 +1,20 @@
 <resources>
-    <string name="app_name">MovieCatalogue</string>
-
+    <string name="app_name">MovieIt</string>
     <string name="tab_text_1">Movies</string>
     <string name="tab_text_2">TV Shows</string>
     <string name="vote_count">Vote Count</string>
     <string name="original_language">Original Language</string>
     <string name="popularity">Popularity</string>
     <string name="original_title">Original Title</string>
-    <!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
     <string name="menu_to_favorite">To Favorite</string>
     <string name="menu_favorite">menu favorite</string>
     <string name="error_message">An Error Occurred</string>
     <string name="title_home">Home</string>
     <string name="title_favorite">Favorites</string>
     <string name="title_settings">Settings</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="empty_query_search">Please input keyword</string>
+    <string name="tmdb_license">MovieIt uses TMDb API licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></string>
 </resources>
