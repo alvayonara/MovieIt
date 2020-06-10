@@ -13,6 +13,7 @@ import com.alvayonara.moviecatalogue.ui.movie.MovieAdapter
 import com.alvayonara.moviecatalogue.ui.tvshow.DetailTvShowActivity.Companion.EXTRA_TV_SHOW_ID
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import kotlinx.android.synthetic.main.item_row_movie.view.*
 import kotlinx.android.synthetic.main.item_row_tv_show.view.*
 import kotlinx.android.synthetic.main.item_row_tv_show_horizontal.view.*
 import org.jetbrains.anko.startActivity
@@ -69,6 +70,8 @@ class TvShowAdapter constructor(private val typeView: Int) :
                 when (typeView) {
                     TYPE_LIST -> {
                         title_tv_show_card.text = tvShow.title
+                        rating_tv_show_card.rating = tvShow.averageVote.toFloat() / 2
+                        vote_average_tv_show_card.text = tvShow.averageVote
                         overview_tv_show_card.text = tvShow.overview
                         Glide.with(context)
                             .load(BuildConfig.BASE_URL_TMDB_POSTER + tvShow.posterPath)

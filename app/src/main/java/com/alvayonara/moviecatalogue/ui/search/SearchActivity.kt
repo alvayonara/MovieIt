@@ -145,7 +145,7 @@ class SearchActivity : AppCompatActivity() {
                     }
                     Status.ERROR -> {
                         progress_bar_movie_search.invisible()
-                        Toast.makeText(this, "Please input keyword", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
@@ -157,7 +157,7 @@ class SearchActivity : AppCompatActivity() {
             }
         } else {
             lyt_search.visible()
-            Toast.makeText(this, "Please input keyword", Toast.LENGTH_SHORT)
+            Toast.makeText(this, getString(R.string.empty_query_search), Toast.LENGTH_SHORT)
                 .show()
         }
     }

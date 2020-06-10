@@ -54,13 +54,13 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/title_tv_show_detail"
+                        android:id="@+id/title_movie_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="26sp"
                         android:textStyle="bold"
-                        tools:text="Tv Show Title" />
+                        tools:text="Movie Title" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                         android:orientation="horizontal">
 
                         <RatingBar
-                            android:id="@+id/rating_tv_show"
+                            android:id="@+id/rating_movie"
                             style="?android:attr/ratingBarStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
                             android:progressTint="#ffba49" />
 
                         <TextView
-                            android:id="@+id/vote_average_tv_show_detail"
+                            android:id="@+id/vote_average_movie_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -88,13 +88,14 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/release_date_tv_show_detail"
+                        android:id="@+id/release_date_movie_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:textColor="#4a4a4a"
                         android:textSize="16sp"
                         tools:text="December 31, 1997" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -115,7 +116,7 @@
                         app:cardUseCompatPadding="false">
 
                         <ImageView
-                            android:id="@+id/poster_tv_show_detail"
+                            android:id="@+id/poster_movie_detail"
                             android:layout_width="125dp"
                             android:layout_height="195dp"
                             android:scaleType="centerCrop"
@@ -147,10 +148,10 @@
                         android:textColor="#9b9b9b" />
 
                     <TextView
-                        android:id="@+id/original_title_tv_show_detail"
+                        android:id="@+id/original_title_movie_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Original TV Show Title"
+                        tools:text="Original Movie Title"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="#4a4a4a" />
 
@@ -171,11 +172,11 @@
                         android:textColor="#9b9b9b" />
 
                     <TextView
-                        android:id="@+id/original_language_tv_show_detail"
+                        android:id="@+id/original_language_movie_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="xxx"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="#4a4a4a" />
 
                 </LinearLayout>
@@ -202,7 +203,7 @@
                         android:textColor="#9b9b9b" />
 
                     <TextView
-                        android:id="@+id/popularity_tv_show_detail"
+                        android:id="@+id/popularity_movie_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="xxx"
@@ -226,11 +227,11 @@
                         android:textColor="#9b9b9b" />
 
                     <TextView
-                        android:id="@+id/vote_count_tv_show_detail"
+                        android:id="@+id/vote_count_movie_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="xxx"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="#4a4a4a" />
 
                 </LinearLayout>
@@ -249,7 +250,7 @@
 
             <TextView
                 android:justificationMode="inter_word"
-                android:id="@+id/overview_tv_show_detail"
+                android:id="@+id/overview_movie_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_large"
@@ -271,7 +272,7 @@
         android:layout_height="match_parent">
 
         <ProgressBar
-            android:id="@+id/progress_bar_detail_tv_show"
+            android:id="@+id/progress_bar_detail_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

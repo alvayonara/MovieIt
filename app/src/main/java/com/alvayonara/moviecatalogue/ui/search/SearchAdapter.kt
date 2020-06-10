@@ -44,6 +44,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
         fun bindItem(movie: MovieEntity) {
             with(itemView) {
                 title_movie_card.text = movie.title
+                rating_movie_card.rating = movie.averageVote!!.toFloat() / 2
+                vote_average_movie_card.text = movie.averageVote
                 overview_movie_card.text = movie.overview
                 Glide.with(context)
                     .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)

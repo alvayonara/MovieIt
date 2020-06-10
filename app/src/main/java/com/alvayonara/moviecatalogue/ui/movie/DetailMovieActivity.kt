@@ -1,6 +1,7 @@
 package com.alvayonara.moviecatalogue.ui.movie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -84,6 +85,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private fun populateMovie(movie: MovieEntity) {
         title_movie_detail.text = movie.title
+        rating_movie.rating = movie.averageVote!!.toFloat() / 2
         vote_average_movie_detail.text = movie.averageVote
         release_date_movie_detail.text = DateConvert.convertDate(movie.releaseDate)
         overview_movie_detail.text = movie.overview

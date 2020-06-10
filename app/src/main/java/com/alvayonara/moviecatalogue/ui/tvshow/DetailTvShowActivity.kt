@@ -84,6 +84,7 @@ class DetailTvShowActivity : AppCompatActivity() {
 
     private fun populateTvShow(tvShow: TvShowEntity) {
         title_tv_show_detail.text = tvShow.title
+        rating_tv_show.rating = tvShow.averageVote.toFloat() / 2
         vote_average_tv_show_detail.text = tvShow.averageVote
         release_date_tv_show_detail.text = DateConvert.convertDate(tvShow.releaseDate)
         overview_tv_show_detail.text = tvShow.overview

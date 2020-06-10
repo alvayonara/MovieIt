@@ -55,7 +55,7 @@
                 android:layout_height="@dimen/spacing_xxlarge"
                 android:layout_margin="@dimen/spacing_mlarge"
                 android:clipToPadding="false"
-                app:cardBackgroundColor="@android:color/white"
+                app:cardBackgroundColor="#f2f2f2"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="1dp">
 

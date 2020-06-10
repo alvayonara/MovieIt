@@ -35,26 +35,6 @@ class MovieAdapter constructor(private val typeView: Int) :
         }
     }
 
-    override fun submitList(pagedList: PagedList<MovieEntity>?) {
-        pagedList?.addWeakCallback(listOf(), object : PagedList.Callback() {
-            override fun onChanged(position: Int, count: Int) {
-                dataMovie.clear()
-                dataMovie.addAll(pagedList)
-            }
-
-            override fun onInserted(position: Int, count: Int) {
-                dataMovie.clear()
-                dataMovie.addAll(pagedList)
-            }
-
-            override fun onRemoved(position: Int, count: Int) {
-                dataMovie.clear()
-                dataMovie.addAll(pagedList)
-            }
-        })
-        super.submitList(pagedList)
-    }
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -91,6 +71,8 @@ class MovieAdapter constructor(private val typeView: Int) :
                 when (typeView) {
                     TYPE_LIST -> {
                         title_movie_card.text = movie.title
+                        rating_movie_card.rating = movie.averageVote!!.toFloat() / 2
+                        vote_average_movie_card.text = movie.averageVote
                         overview_movie_card.text = movie.overview
                         Glide.with(context)
                             .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)

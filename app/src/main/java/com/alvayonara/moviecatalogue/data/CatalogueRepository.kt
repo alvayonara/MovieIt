@@ -167,7 +167,7 @@ class CatalogueRepository private constructor(
                 localDataSource.getTvShowById(tvShowId)
 
             override fun shouldFetch(data: TvShowEntity?): Boolean =
-                true
+                data == null
 
             override fun createCall(): LiveData<ApiResponse<TvShowResponse>> =
                 remoteDataSource.getTvShowById(tvShowId)
