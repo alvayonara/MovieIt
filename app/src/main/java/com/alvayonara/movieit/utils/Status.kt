@@ -1,4 +1,4 @@
-package com.alvayonara.movieit.vo
+package com.alvayonara.movieit.utils
 
 /*
     Status digunakan sebagai indikator dari sukses, gagal dan loading.

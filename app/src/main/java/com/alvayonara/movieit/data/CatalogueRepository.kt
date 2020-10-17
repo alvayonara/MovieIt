@@ -3,7 +3,7 @@ package com.alvayonara.movieit.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.alvayonara.movieit.data.source.local.LocalDataSource
-import com.alvayonara.movieit.data.source.remote.ApiResponse
+import com.alvayonara.movieit.data.source.remote.network.ApiResponse
 import com.alvayonara.movieit.data.source.remote.RemoteDataSource
 import com.alvayonara.movieit.data.source.remote.response.MovieResponse
 import com.alvayonara.movieit.data.source.remote.response.TvShowResponse
@@ -12,7 +12,6 @@ import com.alvayonara.movieit.domain.model.TvShow
 import com.alvayonara.movieit.domain.repository.ICatalogueRepository
 import com.alvayonara.movieit.utils.AppExecutors
 import com.alvayonara.movieit.utils.DataMapper
-import com.alvayonara.movieit.vo.Resource
 
 class CatalogueRepository private constructor(
     private val remoteDataSource: RemoteDataSource,

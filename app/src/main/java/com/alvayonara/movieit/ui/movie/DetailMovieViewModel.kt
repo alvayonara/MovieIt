@@ -6,7 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.domain.usecase.CatalogueUseCase
-import com.alvayonara.movieit.vo.Resource
+import com.alvayonara.movieit.data.Resource
 
 class DetailMovieViewModel(private val catalogueUseCase: CatalogueUseCase) : ViewModel() {
     val movieId = MutableLiveData<String>()

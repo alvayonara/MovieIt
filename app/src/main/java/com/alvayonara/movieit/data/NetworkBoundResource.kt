@@ -2,14 +2,11 @@ package com.alvayonara.movieit.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.alvayonara.movieit.data.source.remote.ApiResponse
+import com.alvayonara.movieit.data.source.remote.network.ApiResponse
 import com.alvayonara.movieit.data.source.remote.StatusResponse
 import com.alvayonara.movieit.utils.AppExecutors
-import com.alvayonara.movieit.vo.Resource
 
-abstract class NetworkBoundResource<ResultType, RequestType>(
-    private val mExecutors: AppExecutors
-) {
+abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecutors: AppExecutors) {
 
     private val result = MediatorLiveData<Resource<ResultType>>()
 
@@ -48,29 +45,28 @@ abstract class NetworkBoundResource<ResultType, RequestType>(
         result.addSource(dbSource) { newData ->
             result.value = Resource.loading(newData)
         }
-
         result.addSource(apiResponse) { response ->
             result.removeSource(apiResponse)
             result.removeSource(dbSource)
-            when (response.status) {
-                StatusResponse.SUCCESS ->
+            when (response) {
+                is ApiResponse.Success ->
                     mExecutors.diskIO().execute {
-                        saveCallResult(response.body)
+                        saveCallResult(response.data)
                         mExecutors.mainThread().execute {
                             result.addSource(loadFromDB()) { newData ->
                                 result.value = Resource.success(newData)
                             }
                         }
                     }
-                StatusResponse.EMPTY -> mExecutors.mainThread().execute {
+                is ApiResponse.Empty -> mExecutors.mainThread().execute {
                     result.addSource(loadFromDB()) { newData ->
                         result.value = Resource.success(newData)
                     }
                 }
-                StatusResponse.ERROR -> {
+                is ApiResponse.Error -> {
                     onFetchFailed()
                     result.addSource(dbSource) { newData ->
-                        result.value = Resource.error(response.message, newData)
+                        result.value = Resource.error(response.errorMessage, newData)
                     }
                 }
             }

@@ -6,8 +6,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TvShowResponse(
-    @SerializedName("results")
-    val tvShows: List<TvShowResponse>,
 
     @SerializedName("id")
     var tvShowId: String,

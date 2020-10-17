@@ -10,14 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.movieit.BuildConfig
 import com.alvayonara.movieit.R
-import com.alvayonara.movieit.data.source.local.entity.MovieEntity
 import com.alvayonara.movieit.domain.model.Movie
-import com.alvayonara.movieit.utils.DateConvert
-import com.alvayonara.movieit.utils.ToolbarConfig
-import com.alvayonara.movieit.utils.invisible
-import com.alvayonara.movieit.utils.visible
+import com.alvayonara.movieit.utils.*
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
-import com.alvayonara.movieit.vo.Status
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_movie.*
@@ -49,18 +44,18 @@ class DetailMovieActivity : AppCompatActivity() {
             if (movieId != null) {
                 viewModel.setSelectedMovie(movieId)
 
-                viewModel.movieDetail.observe(this, Observer { movie ->
-                    if (movie != null) {
-                        when (movie.status) {
+                viewModel.movieDetail.observe(this, Observer {
+                    if (it != null) {
+                        when (it.status) {
                             Status.LOADING -> progress_bar_detail_movie.visible()
                             Status.SUCCESS -> {
-                                if (movie.data != null) {
-                                    progress_bar_detail_movie.invisible()
-                                    populateMovie(movie.data)
+                                if (it.data != null) {
+                                    progress_bar_detail_movie.gone()
+                                    populateMovie(it.data)
                                 }
                             }
                             Status.ERROR -> {
-                                progress_bar_detail_movie.invisible()
+                                progress_bar_detail_movie.gone()
                                 Toast.makeText(
                                     this,
                                     getString(R.string.error_message),
@@ -121,24 +116,23 @@ class DetailMovieActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
         this.menu = menu
-        viewModel.movieDetail.observe(this, Observer { movie ->
-            if (movie != null) {
-                when (movie.status) {
+        viewModel.movieDetail.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
                     Status.LOADING -> progress_bar_detail_movie.visible()
                     Status.SUCCESS -> {
-                        if (movie.data != null) {
-                            progress_bar_detail_movie.invisible()
-                            val state = movie.data.favored
+                        if (it.data != null) {
+                            progress_bar_detail_movie.gone()
+                            val state = it.data.favored
                             setFavoriteState(state)
                         }
                     }
-                    Status.ERROR -> {
-                        Toast.makeText(
+                    Status.ERROR -> Toast.makeText(
                             this,
                             getString(R.string.error_message),
                             Toast.LENGTH_SHORT
                         ).show()
-                    }
+
                 }
             }
         })

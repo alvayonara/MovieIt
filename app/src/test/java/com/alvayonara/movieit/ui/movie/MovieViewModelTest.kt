@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.alvayonara.movieit.data.CatalogueRepository
 import com.alvayonara.movieit.data.source.local.entity.MovieEntity
-import com.alvayonara.movieit.vo.Resource
+import com.alvayonara.movieit.data.Resource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

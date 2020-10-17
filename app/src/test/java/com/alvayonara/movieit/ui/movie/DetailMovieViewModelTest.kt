@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.alvayonara.movieit.data.CatalogueRepository
 import com.alvayonara.movieit.data.source.local.entity.MovieEntity
 import com.alvayonara.movieit.utils.FakeDataDummy
-import com.alvayonara.movieit.vo.Resource
+import com.alvayonara.movieit.data.Resource
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

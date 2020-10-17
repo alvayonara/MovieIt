@@ -16,14 +16,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.movieit.R
-import com.alvayonara.movieit.data.source.local.entity.MovieEntity
 import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.utils.ToolbarConfig
 import com.alvayonara.movieit.utils.gone
 import com.alvayonara.movieit.utils.invisible
 import com.alvayonara.movieit.utils.visible
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
-import com.alvayonara.movieit.vo.Status
+import com.alvayonara.movieit.utils.Status
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {
@@ -68,10 +67,11 @@ class SearchActivity : AppCompatActivity() {
 
         edt_search.addTextChangedListener(textWatcher)
         edt_search.setOnEditorActionListener(OnEditorActionListener { _, actionId, keyEvent ->
-            if(actionId == EditorInfo.IME_ACTION_SEARCH
+            if (actionId == EditorInfo.IME_ACTION_SEARCH
                 || actionId == EditorInfo.IME_ACTION_DONE
                 || keyEvent.action == KeyEvent.ACTION_DOWN
-                || keyEvent.action == KeyEvent.KEYCODE_ENTER){
+                || keyEvent.action == KeyEvent.KEYCODE_ENTER
+            ) {
 
                 clearRecyclerView()
                 lyt_not_found_search.gone()
@@ -84,7 +84,7 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
-    private fun clearRecyclerView(){
+    private fun clearRecyclerView() {
         listMovies.clear()
         searchAdapter.setMovies(listMovies)
     }
@@ -123,8 +123,8 @@ class SearchActivity : AppCompatActivity() {
 
         query = edt_search.text.toString().trim()
         if (query != "") {
-            viewModel.getMovieSearch("%$query%").observe(this, Observer { movies ->
-                when (movies.status) {
+            viewModel.getMovieSearch("%$query%").observe(this, Observer {
+                when (it.status) {
                     Status.LOADING -> {
                         lyt_search.gone()
                         lyt_not_found_search.gone()
@@ -133,11 +133,11 @@ class SearchActivity : AppCompatActivity() {
                     Status.SUCCESS -> {
                         progress_bar_movie_search.invisible()
 
-                        if (movies.data!!.isEmpty()) {
+                        if (it.data!!.isEmpty()) {
                             lyt_not_found_search.visible()
                         } else {
                             lyt_not_found_search.gone()
-                            searchAdapter.setMovies(movies.data)
+                            searchAdapter.setMovies(it.data)
                         }
                     }
                     Status.ERROR -> {
@@ -150,6 +150,7 @@ class SearchActivity : AppCompatActivity() {
 
             with(rv_movie_search) {
                 layoutManager = LinearLayoutManager(context)
+                setHasFixedSize(true)
                 adapter = searchAdapter
             }
         } else {

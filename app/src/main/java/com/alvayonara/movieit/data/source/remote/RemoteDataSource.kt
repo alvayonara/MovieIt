@@ -1,18 +1,17 @@
 package com.alvayonara.movieit.data.source.remote
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alvayonara.movieit.BuildConfig
-import com.alvayonara.movieit.api.ApiRepository
-import com.alvayonara.movieit.data.source.remote.response.MovieResponse
-import com.alvayonara.movieit.data.source.remote.response.TvShowResponse
+import com.alvayonara.movieit.data.source.remote.network.ApiResponse
+import com.alvayonara.movieit.data.source.remote.network.ApiService
+import com.alvayonara.movieit.data.source.remote.response.*
 import com.alvayonara.movieit.utils.EspressoIdlingResource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RemoteDataSource {
+class RemoteDataSource private constructor(private val apiService: ApiService) {
 
     companion object {
 
@@ -21,9 +20,9 @@ class RemoteDataSource {
         @Volatile
         private var instance: RemoteDataSource? = null
 
-        fun getInstance(): RemoteDataSource =
+        fun getInstance(service: ApiService): RemoteDataSource =
             instance ?: synchronized(this) {
-                instance ?: RemoteDataSource()
+                instance ?: RemoteDataSource(service)
             }
     }
 
@@ -31,14 +30,21 @@ class RemoteDataSource {
         EspressoIdlingResource.increment()
         val movieResults = MutableLiveData<ApiResponse<List<MovieResponse>>>()
 
-        ApiRepository().theMovieDBApi.getMovies(BuildConfig.TMDB_API_KEY, LANGUAGE).enqueue(object :
-            Callback<MovieResponse> {
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.e("Movie Request Error: ", t.toString())
+        val client = apiService.getMovies(BuildConfig.TMDB_API_KEY, LANGUAGE)
+
+        client.enqueue(object :
+            Callback<ListMovieResponse> {
+            override fun onFailure(call: Call<ListMovieResponse>, t: Throwable) {
+                movieResults.value = ApiResponse.Error(t.message.toString())
             }
 
-            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                movieResults.postValue(ApiResponse.success(response.body()!!.movies))
+            override fun onResponse(
+                call: Call<ListMovieResponse>,
+                response: Response<ListMovieResponse>
+            ) {
+                val dataArray = response.body()?.movies
+                movieResults.value =
+                    if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
             }
         })
         EspressoIdlingResource.decrement()
@@ -50,19 +56,22 @@ class RemoteDataSource {
         EspressoIdlingResource.increment()
         val movieResult = MutableLiveData<ApiResponse<MovieResponse>>()
 
-        ApiRepository().theMovieDBApi.getMovieById(movieId, BuildConfig.TMDB_API_KEY, LANGUAGE)
-            .enqueue(object : Callback<MovieResponse> {
-                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                    Log.e("Movie Request Error: ", t.toString())
-                }
+        val client = apiService.getMovieById(movieId, BuildConfig.TMDB_API_KEY, LANGUAGE)
 
-                override fun onResponse(
-                    call: Call<MovieResponse>,
-                    response: Response<MovieResponse>
-                ) {
-                    movieResult.postValue(ApiResponse.success(response.body()!!))
-                }
-            })
+        client.enqueue(object : Callback<MovieResponse> {
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                movieResult.value = ApiResponse.Error(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<MovieResponse>,
+                response: Response<MovieResponse>
+            ) {
+                val data = response.body()
+                movieResult.value =
+                    if (data != null) ApiResponse.Success(data) else ApiResponse.Empty
+            }
+        })
         EspressoIdlingResource.decrement()
 
         return movieResult
@@ -72,17 +81,21 @@ class RemoteDataSource {
         EspressoIdlingResource.increment()
         val tvShowResults = MutableLiveData<ApiResponse<List<TvShowResponse>>>()
 
-        ApiRepository().theMovieDBApi.getTvShows(BuildConfig.TMDB_API_KEY, LANGUAGE)
-            .enqueue(object : Callback<TvShowResponse> {
-                override fun onFailure(call: Call<TvShowResponse>, t: Throwable) {
-                    Log.e("TvShow Request Error: ", t.toString())
+        val client = apiService.getTvShows(BuildConfig.TMDB_API_KEY, LANGUAGE)
+
+        client
+            .enqueue(object : Callback<ListTvShowResponse> {
+                override fun onFailure(call: Call<ListTvShowResponse>, t: Throwable) {
+                    tvShowResults.value = ApiResponse.Error(t.message.toString())
                 }
 
                 override fun onResponse(
-                    call: Call<TvShowResponse>,
-                    response: Response<TvShowResponse>
+                    call: Call<ListTvShowResponse>,
+                    response: Response<ListTvShowResponse>
                 ) {
-                    tvShowResults.postValue(ApiResponse.success(response.body()!!.tvShows))
+                    val dataArray = response.body()?.tvShows
+                    tvShowResults.value =
+                        if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
                 }
 
             })
@@ -95,17 +108,21 @@ class RemoteDataSource {
         EspressoIdlingResource.increment()
         val tvShowResult = MutableLiveData<ApiResponse<TvShowResponse>>()
 
-        ApiRepository().theMovieDBApi.getTvShowById(tvShowId, BuildConfig.TMDB_API_KEY, LANGUAGE)
+        val client = apiService.getTvShowById(tvShowId, BuildConfig.TMDB_API_KEY, LANGUAGE)
+
+        client
             .enqueue(object : Callback<TvShowResponse> {
                 override fun onFailure(call: Call<TvShowResponse>, t: Throwable) {
-                    Log.e("TvShow Request Error: ", t.toString())
+                    tvShowResult.value = ApiResponse.Error(t.message.toString())
                 }
 
                 override fun onResponse(
                     call: Call<TvShowResponse>,
                     response: Response<TvShowResponse>
                 ) {
-                    tvShowResult.postValue(ApiResponse.success(response.body()!!))
+                    val data = response.body()
+                    tvShowResult.value =
+                        if (data != null) ApiResponse.Success(data) else ApiResponse.Empty
                 }
 
             })
@@ -118,17 +135,21 @@ class RemoteDataSource {
         EspressoIdlingResource.increment()
         val movieResults = MutableLiveData<ApiResponse<List<MovieResponse>>>()
 
-        ApiRepository().theMovieDBApi.getMovieSearch(BuildConfig.TMDB_API_KEY, LANGUAGE, query)
-            .enqueue(object : Callback<MovieResponse> {
-                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                    Log.e("Movie Request Error: ", t.toString())
+        val client = apiService.getMovieSearch(BuildConfig.TMDB_API_KEY, LANGUAGE, query)
+
+        client
+            .enqueue(object : Callback<ListMovieResponse> {
+                override fun onFailure(call: Call<ListMovieResponse>, t: Throwable) {
+                    movieResults.value = ApiResponse.Error(t.message.toString())
                 }
 
                 override fun onResponse(
-                    call: Call<MovieResponse>,
-                    response: Response<MovieResponse>
+                    call: Call<ListMovieResponse>,
+                    response: Response<ListMovieResponse>
                 ) {
-                    movieResults.postValue(ApiResponse.success(response.body()!!.movies))
+                    val dataArray = response.body()?.movies
+                    movieResults.value =
+                        if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
                 }
             })
 

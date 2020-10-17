@@ -45,17 +45,19 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItem(movie: Movie) {
             with(itemView) {
-                title_movie_card.text = movie.title
-                rating_movie_card.rating = movie.averageVote!!.toFloat() / 2
-                vote_average_movie_card.text = movie.averageVote
-                overview_movie_card.text = movie.overview
-                Glide.with(context)
-                    .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)
-                    .apply(
-                        RequestOptions.placeholderOf(R.drawable.ic_loading)
-                            .error(R.drawable.ic_error)
-                    )
-                    .into(poster_movie_card)
+                movie.let {
+                    title_movie_card.text = it.title
+                    rating_movie_card.rating = it.averageVote.toFloat() / 2
+                    vote_average_movie_card.text = it.averageVote
+                    overview_movie_card.text = it.overview
+                    Glide.with(context)
+                        .load(BuildConfig.BASE_URL_TMDB_POSTER + it.posterPath)
+                        .apply(
+                            RequestOptions.placeholderOf(R.drawable.ic_loading)
+                                .error(R.drawable.ic_error)
+                        )
+                        .into(poster_movie_card)
+                }
 
                 setOnClickListener {
                     context.startActivity<DetailMovieActivity>(EXTRA_MOVIE_ID to movie.movieId)

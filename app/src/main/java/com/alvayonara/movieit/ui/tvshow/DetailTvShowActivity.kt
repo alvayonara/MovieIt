@@ -10,14 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.movieit.BuildConfig
 import com.alvayonara.movieit.R
-import com.alvayonara.movieit.data.source.local.entity.TvShowEntity
 import com.alvayonara.movieit.domain.model.TvShow
-import com.alvayonara.movieit.utils.DateConvert
-import com.alvayonara.movieit.utils.ToolbarConfig
-import com.alvayonara.movieit.utils.invisible
-import com.alvayonara.movieit.utils.visible
+import com.alvayonara.movieit.utils.*
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
-import com.alvayonara.movieit.vo.Status
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_tv_show.*
@@ -49,18 +44,18 @@ class DetailTvShowActivity : AppCompatActivity() {
             if (tvShowId != null) {
                 viewModel.setSelectedTvShow(tvShowId)
 
-                viewModel.tvShowDetail.observe(this, Observer { tvShow ->
-                    if (tvShow != null) {
-                        when (tvShow.status) {
+                viewModel.tvShowDetail.observe(this, Observer {
+                    if (it != null) {
+                        when (it.status) {
                             Status.LOADING -> progress_bar_detail_tv_show.visible()
                             Status.SUCCESS -> {
-                                if (tvShow.data != null) {
-                                    progress_bar_detail_tv_show.invisible()
-                                    populateTvShow(tvShow.data)
+                                if (it.data != null) {
+                                    progress_bar_detail_tv_show.gone()
+                                    populateTvShow(it.data)
                                 }
                             }
                             Status.ERROR -> {
-                                progress_bar_detail_tv_show.invisible()
+                                progress_bar_detail_tv_show.gone()
                                 Toast.makeText(
                                     this,
                                     getString(R.string.error_message),
@@ -97,7 +92,9 @@ class DetailTvShowActivity : AppCompatActivity() {
 
             Glide.with(this)
                 .load(BuildConfig.BASE_URL_TMDB_POSTER + it.posterPath)
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
+                .apply(
+                    RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error)
+                )
                 .into(poster_tv_show_detail)
         }
     }
@@ -119,24 +116,23 @@ class DetailTvShowActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
         this.menu = menu
-        viewModel.tvShowDetail.observe(this, Observer { tvShow ->
-            if (tvShow != null) {
-                when (tvShow.status) {
+        viewModel.tvShowDetail.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
                     Status.LOADING -> progress_bar_detail_tv_show.visible()
                     Status.SUCCESS -> {
-                        if (tvShow.data != null) {
-                            progress_bar_detail_tv_show.invisible()
-                            val state = tvShow.data.favored
+                        if (it.data != null) {
+                            progress_bar_detail_tv_show.gone()
+                            val state = it.data.favored
                             setFavoriteState(state)
                         }
                     }
-                    Status.ERROR -> {
-                        Toast.makeText(
-                            this,
-                            getString(R.string.error_message),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    Status.ERROR -> Toast.makeText(
+                        this,
+                        getString(R.string.error_message),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 }
             }
         })

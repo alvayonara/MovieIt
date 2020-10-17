@@ -8,11 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.movieit.R
-import com.alvayonara.movieit.utils.ToolbarConfig
-import com.alvayonara.movieit.utils.invisible
-import com.alvayonara.movieit.utils.visible
+import com.alvayonara.movieit.utils.*
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
-import com.alvayonara.movieit.vo.Status
 import kotlinx.android.synthetic.main.activity_movie.*
 
 class MovieActivity : AppCompatActivity() {
@@ -43,18 +40,16 @@ class MovieActivity : AppCompatActivity() {
     private fun initView(viewModel: MovieViewModel) {
         val movieAdapter = MovieAdapter(MovieAdapter.TYPE_LIST)
 
-        viewModel.movies.observe(this, Observer { movies ->
-            if (movies != null) {
-                when (movies.status) {
-                    Status.LOADING -> {
-                        progress_bar_movie.visible()
-                    }
+        viewModel.movies.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Status.LOADING -> progress_bar_movie.visible()
                     Status.SUCCESS -> {
-                        progress_bar_movie.invisible()
-                        movieAdapter.setMovies(movies.data)
+                        progress_bar_movie.gone()
+                        movieAdapter.setMovies(it.data)
                     }
                     Status.ERROR -> {
-                        progress_bar_movie.invisible()
+                        progress_bar_movie.gone()
                         Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -64,6 +59,7 @@ class MovieActivity : AppCompatActivity() {
 
         with(rv_movie) {
             layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
             adapter = movieAdapter
         }
     }

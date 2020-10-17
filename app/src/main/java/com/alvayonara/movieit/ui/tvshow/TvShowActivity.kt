@@ -8,11 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.movieit.R
-import com.alvayonara.movieit.utils.ToolbarConfig
-import com.alvayonara.movieit.utils.invisible
-import com.alvayonara.movieit.utils.visible
+import com.alvayonara.movieit.utils.*
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
-import com.alvayonara.movieit.vo.Status
 import kotlinx.android.synthetic.main.activity_tv_show.*
 
 class TvShowActivity : AppCompatActivity() {
@@ -45,16 +42,16 @@ class TvShowActivity : AppCompatActivity() {
     private fun initView(viewModel: TvShowViewModel) {
         val tvShowAdapter = TvShowAdapter(TvShowAdapter.TYPE_LIST)
 
-        viewModel.tvShows.observe(this, Observer { tvShows ->
-            if (tvShows != null) {
-                when (tvShows.status) {
+        viewModel.tvShows.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
                     Status.LOADING -> progress_bar_tv_show.visible()
                     Status.SUCCESS -> {
-                        progress_bar_tv_show.invisible()
-                        tvShowAdapter.setTvShows(tvShows.data)
+                        progress_bar_tv_show.gone()
+                        tvShowAdapter.setTvShows(it.data)
                     }
                     Status.ERROR -> {
-                        progress_bar_tv_show.invisible()
+                        progress_bar_tv_show.gone()
                         Toast.makeText(
                             this,
                             getString(R.string.error_message),

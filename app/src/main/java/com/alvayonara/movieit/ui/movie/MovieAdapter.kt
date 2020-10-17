@@ -64,28 +64,32 @@ class MovieAdapter constructor(private val typeView: Int) :
             with(itemView) {
                 when (typeView) {
                     TYPE_LIST -> {
-                        title_movie_card.text = movie.title
-                        rating_movie_card.rating = movie.averageVote!!.toFloat() / 2
-                        vote_average_movie_card.text = movie.averageVote
-                        overview_movie_card.text = movie.overview
-                        Glide.with(context)
-                            .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)
-                            .apply(
-                                RequestOptions.placeholderOf(R.drawable.ic_loading)
-                                    .error(R.drawable.ic_error)
-                            )
-                            .into(poster_movie_card)
+                        movie.let {
+                            title_movie_card.text = it.title
+                            rating_movie_card.rating = it.averageVote.toFloat() / 2
+                            vote_average_movie_card.text = it.averageVote
+                            overview_movie_card.text = it.overview
+                            Glide.with(context)
+                                .load(BuildConfig.BASE_URL_TMDB_POSTER + it.posterPath)
+                                .apply(
+                                    RequestOptions.placeholderOf(R.drawable.ic_loading)
+                                        .error(R.drawable.ic_error)
+                                )
+                                .into(poster_movie_card)
+                        }
                     }
                     TYPE_GRID -> {
-                        title_movie_card_horizontal.text = movie.title
-                        rating_movie_card_horizontal.rating = movie.averageVote!!.toFloat() / 2
-                        Glide.with(context)
-                            .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)
-                            .apply(
-                                RequestOptions.placeholderOf(R.drawable.ic_loading)
-                                    .error(R.drawable.ic_error)
-                            )
-                            .into(poster_movie_card_horizontal)
+                        movie.let {
+                            title_movie_card_horizontal.text = it.title
+                            rating_movie_card_horizontal.rating = it.averageVote.toFloat() / 2
+                            Glide.with(context)
+                                .load(BuildConfig.BASE_URL_TMDB_POSTER + it.posterPath)
+                                .apply(
+                                    RequestOptions.placeholderOf(R.drawable.ic_loading)
+                                        .error(R.drawable.ic_error)
+                                )
+                                .into(poster_movie_card_horizontal)
+                        }
                     }
                     else -> throw IllegalArgumentException("Invalid view type")
                 }

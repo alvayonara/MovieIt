@@ -16,11 +16,8 @@ import com.alvayonara.movieit.ui.movie.MovieAdapter.Companion.TYPE_GRID
 import com.alvayonara.movieit.ui.search.SearchActivity
 import com.alvayonara.movieit.ui.tvshow.TvShowActivity
 import com.alvayonara.movieit.ui.tvshow.TvShowAdapter
-import com.alvayonara.movieit.utils.Tools
-import com.alvayonara.movieit.utils.invisible
-import com.alvayonara.movieit.utils.visible
+import com.alvayonara.movieit.utils.*
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
-import com.alvayonara.movieit.vo.Status
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.act
@@ -67,16 +64,16 @@ class HomeFragment : Fragment() {
     private fun initViewMovies(viewModel: HomeViewModel) {
         val movieAdapter = MovieAdapter(TYPE_GRID)
 
-        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
-            if (movies != null) {
-                when (movies.status) {
+        viewModel.movies.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                when (it.status) {
                     Status.LOADING -> progress_bar_home.visible()
                     Status.SUCCESS -> {
-                        progress_bar_home.invisible()
-                        movieAdapter.setMovies(movies.data)
+                        progress_bar_home.gone()
+                        movieAdapter.setMovies(it.data)
                     }
                     Status.ERROR -> {
-                        progress_bar_home.invisible()
+                        progress_bar_home.gone()
                         Toast.makeText(
                             context,
                             getString(R.string.error_message),
@@ -89,6 +86,7 @@ class HomeFragment : Fragment() {
 
         with(rv_movie_horizontal) {
             layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
             adapter = movieAdapter
         }
     }
@@ -96,18 +94,16 @@ class HomeFragment : Fragment() {
     private fun initViewTvShows(viewModel: HomeViewModel) {
         val tvShowAdapter = TvShowAdapter(TYPE_GRID)
 
-        viewModel.tvShows.observe(viewLifecycleOwner, Observer { tvShows ->
-            if (tvShows != null) {
-                when (tvShows.status) {
-                    Status.LOADING -> {
-                        progress_bar_home.visible()
-                    }
+        viewModel.tvShows.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Status.LOADING -> progress_bar_home.visible()
                     Status.SUCCESS -> {
-                        progress_bar_home.invisible()
-                        tvShowAdapter.setTvShows(tvShows.data)
+                        progress_bar_home.gone()
+                        tvShowAdapter.setTvShows(it.data)
                     }
                     Status.ERROR -> {
-                        progress_bar_home.invisible()
+                        progress_bar_home.gone()
                         Toast.makeText(
                             context,
                             getString(R.string.error_message),
@@ -120,6 +116,7 @@ class HomeFragment : Fragment() {
 
         with(rv_tv_show_horizontal) {
             layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
             adapter = tvShowAdapter
         }
     }

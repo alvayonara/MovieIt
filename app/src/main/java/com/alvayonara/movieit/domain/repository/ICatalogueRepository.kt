@@ -3,7 +3,7 @@ package com.alvayonara.movieit.domain.repository
 import androidx.lifecycle.LiveData
 import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.domain.model.TvShow
-import com.alvayonara.movieit.vo.Resource
+import com.alvayonara.movieit.data.Resource
 
 interface ICatalogueRepository {
 

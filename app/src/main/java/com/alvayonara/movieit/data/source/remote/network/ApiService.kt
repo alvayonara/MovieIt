@@ -1,5 +1,7 @@
-package com.alvayonara.movieit.api
+package com.alvayonara.movieit.data.source.remote.network
 
+import com.alvayonara.movieit.data.source.remote.response.ListMovieResponse
+import com.alvayonara.movieit.data.source.remote.response.ListTvShowResponse
 import com.alvayonara.movieit.data.source.remote.response.MovieResponse
 import com.alvayonara.movieit.data.source.remote.response.TvShowResponse
 import retrofit2.Call
@@ -7,13 +9,13 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface TheMovieDBApi {
+interface ApiService {
 
     @GET("3/discover/movie")
     fun getMovies(
         @Query("api_key") api: String?,
         @Query("language") language: String?
-    ): Call<MovieResponse>
+    ): Call<ListMovieResponse>
 
     @GET("3/movie/{movieId}")
     fun getMovieById(
@@ -26,7 +28,7 @@ interface TheMovieDBApi {
     fun getTvShows(
         @Query("api_key") api: String?,
         @Query("language") language: String?
-    ): Call<TvShowResponse>
+    ): Call<ListTvShowResponse>
 
     @GET("3/tv/{tvShowId}")
     fun getTvShowById(
@@ -40,5 +42,5 @@ interface TheMovieDBApi {
         @Query("api_key") api: String?,
         @Query("language") language: String?,
         @Query("query") query: String?
-    ): Call<MovieResponse>
+    ): Call<ListMovieResponse>
 }

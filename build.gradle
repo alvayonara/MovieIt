@@ -50,6 +50,7 @@ ext {
 
     retrofitVersion = '2.9.0'
     retrofitGsonVersion = '2.9.0'
+    loggingInterceptorVersion = '4.8.0'
 
     roomVersion = '2.2.5'
     pagingVersion = '2.1.2'

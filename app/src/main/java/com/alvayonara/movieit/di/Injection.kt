@@ -5,6 +5,7 @@ import com.alvayonara.movieit.data.CatalogueRepository
 import com.alvayonara.movieit.data.source.local.LocalDataSource
 import com.alvayonara.movieit.data.source.local.room.CatalogueDatabase
 import com.alvayonara.movieit.data.source.remote.RemoteDataSource
+import com.alvayonara.movieit.data.source.remote.network.ApiConfig
 import com.alvayonara.movieit.domain.repository.ICatalogueRepository
 import com.alvayonara.movieit.domain.usecase.CatalogueInteractor
 import com.alvayonara.movieit.domain.usecase.CatalogueUseCase
@@ -16,7 +17,7 @@ object Injection {
 
         val database = CatalogueDatabase.getInstance(context)
 
-        val remoteDataSource = RemoteDataSource.getInstance()
+        val remoteDataSource = RemoteDataSource.getInstance(ApiConfig.provideApiService())
         val localDataSource = LocalDataSource.getInstance(database.catalogueDao())
         val appExecutors = AppExecutors()
 

@@ -44,11 +44,11 @@ class FavoriteTvShowFragment : Fragment() {
 
         progress_bar_tv_show_favorite.visible()
 
-        viewModel.favoriteTvShow.observe(viewLifecycleOwner, Observer { tvShows ->
+        viewModel.favoriteTvShow.observe(viewLifecycleOwner, Observer {
             progress_bar_tv_show_favorite.invisible()
 
-            if (tvShows.isNotEmpty()){
-                tvShowAdapter.setTvShows(tvShows)
+            if (it.isNotEmpty()){
+                tvShowAdapter.setTvShows(it)
                 tvShowAdapter.notifyDataSetChanged()
             } else {
                 lyt_empty_tv_show_favorite.visible()
