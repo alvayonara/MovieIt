@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.movieit.R
 import com.alvayonara.movieit.data.source.local.entity.MovieEntity
+import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.utils.ToolbarConfig
 import com.alvayonara.movieit.utils.gone
 import com.alvayonara.movieit.utils.invisible
@@ -29,7 +30,7 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var query: String
-    private var listMovies = ArrayList<MovieEntity>()
+    private var listMovies = ArrayList<Movie>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +87,6 @@ class SearchActivity : AppCompatActivity() {
     private fun clearRecyclerView(){
         listMovies.clear()
         searchAdapter.setMovies(listMovies)
-        searchAdapter.notifyDataSetChanged()
     }
 
     private var textWatcher: TextWatcher = object : TextWatcher {
@@ -138,7 +138,6 @@ class SearchActivity : AppCompatActivity() {
                         } else {
                             lyt_not_found_search.gone()
                             searchAdapter.setMovies(movies.data)
-                            searchAdapter.notifyDataSetChanged()
                         }
                     }
                     Status.ERROR -> {

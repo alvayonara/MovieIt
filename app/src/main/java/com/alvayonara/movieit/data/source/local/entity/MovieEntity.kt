@@ -16,31 +16,31 @@ data class MovieEntity(
     var movieId: String,
 
     @ColumnInfo(name = "title")
-    var title: String?,
+    var title: String,
 
     @ColumnInfo(name = "originalTitle")
-    var originalTitle: String?,
+    var originalTitle: String,
 
     @ColumnInfo(name = "originalLanguage")
-    var originalLanguage: String?,
+    var originalLanguage: String,
 
     @ColumnInfo(name = "posterPath")
-    var posterPath: String?,
+    var posterPath: String,
 
     @ColumnInfo(name = "overview")
-    var overview: String?,
+    var overview: String,
 
     @ColumnInfo(name = "releaseDate")
-    var releaseDate: String?,
+    var releaseDate: String,
 
     @ColumnInfo(name = "voteCount")
-    var voteCount: String?,
+    var voteCount: String,
 
     @ColumnInfo(name = "popularity")
-    var popularity: String?,
+    var popularity: String,
 
     @ColumnInfo(name = "averageVote")
-    var averageVote: String?,
+    var averageVote: String,
 
     @ColumnInfo(name = "favored")
     var favored: Boolean = false,

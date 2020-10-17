@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.movieit.BuildConfig
 import com.alvayonara.movieit.R
 import com.alvayonara.movieit.data.source.local.entity.TvShowEntity
+import com.alvayonara.movieit.domain.model.TvShow
 import com.alvayonara.movieit.utils.DateConvert
 import com.alvayonara.movieit.utils.ToolbarConfig
 import com.alvayonara.movieit.utils.invisible
@@ -82,21 +83,23 @@ class DetailTvShowActivity : AppCompatActivity() {
         ToolbarConfig.setLightStatusBar(this)
     }
 
-    private fun populateTvShow(tvShow: TvShowEntity) {
-        title_tv_show_detail.text = tvShow.title
-        rating_tv_show.rating = tvShow.averageVote.toFloat() / 2
-        vote_average_tv_show_detail.text = tvShow.averageVote
-        release_date_tv_show_detail.text = DateConvert.convertDate(tvShow.releaseDate)
-        overview_tv_show_detail.text = tvShow.overview
-        popularity_tv_show_detail.text = tvShow.popularity
-        original_title_tv_show_detail.text = tvShow.originalTitle
-        original_language_tv_show_detail.text = tvShow.originalLanguage
-        vote_count_tv_show_detail.text = tvShow.voteCount
+    private fun populateTvShow(tvShow: TvShow?) {
+        tvShow?.let {
+            title_tv_show_detail.text = it.title
+            rating_tv_show.rating = it.averageVote.toFloat() / 2
+            vote_average_tv_show_detail.text = it.averageVote
+            release_date_tv_show_detail.text = DateConvert.convertDate(it.releaseDate)
+            overview_tv_show_detail.text = it.overview
+            popularity_tv_show_detail.text = it.popularity
+            original_title_tv_show_detail.text = it.originalTitle
+            original_language_tv_show_detail.text = it.originalLanguage
+            vote_count_tv_show_detail.text = it.voteCount
 
-        Glide.with(this)
-            .load(BuildConfig.BASE_URL_TMDB_POSTER + tvShow.posterPath)
-            .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-            .into(poster_tv_show_detail)
+            Glide.with(this)
+                .load(BuildConfig.BASE_URL_TMDB_POSTER + it.posterPath)
+                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
+                .into(poster_tv_show_detail)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -67,14 +67,13 @@ class HomeFragment : Fragment() {
     private fun initViewMovies(viewModel: HomeViewModel) {
         val movieAdapter = MovieAdapter(TYPE_GRID)
 
-        viewModel.getMovies().observe(viewLifecycleOwner, Observer { movies ->
+        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
             if (movies != null) {
                 when (movies.status) {
                     Status.LOADING -> progress_bar_home.visible()
                     Status.SUCCESS -> {
                         progress_bar_home.invisible()
-                        movieAdapter.submitList(movies.data)
-                        movieAdapter.notifyDataSetChanged()
+                        movieAdapter.setMovies(movies.data)
                     }
                     Status.ERROR -> {
                         progress_bar_home.invisible()
@@ -97,7 +96,7 @@ class HomeFragment : Fragment() {
     private fun initViewTvShows(viewModel: HomeViewModel) {
         val tvShowAdapter = TvShowAdapter(TYPE_GRID)
 
-        viewModel.getTvShows().observe(viewLifecycleOwner, Observer { tvShows ->
+        viewModel.tvShows.observe(viewLifecycleOwner, Observer { tvShows ->
             if (tvShows != null) {
                 when (tvShows.status) {
                     Status.LOADING -> {
@@ -105,8 +104,7 @@ class HomeFragment : Fragment() {
                     }
                     Status.SUCCESS -> {
                         progress_bar_home.invisible()
-                        tvShowAdapter.submitList(tvShows.data)
-                        tvShowAdapter.notifyDataSetChanged()
+                        tvShowAdapter.setTvShows(tvShows.data)
                     }
                     Status.ERROR -> {
                         progress_bar_home.invisible()

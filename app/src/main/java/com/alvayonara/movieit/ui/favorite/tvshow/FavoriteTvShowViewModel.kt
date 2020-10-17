@@ -1,13 +1,9 @@
 package com.alvayonara.movieit.ui.favorite.tvshow
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.PagedList
-import com.alvayonara.movieit.data.CatalogueRepository
-import com.alvayonara.movieit.data.source.local.entity.TvShowEntity
+import com.alvayonara.movieit.domain.usecase.CatalogueUseCase
 
-class FavoriteTvShowViewModel(private val catalogueRepository: CatalogueRepository) : ViewModel() {
+class FavoriteTvShowViewModel(catalogueUseCase: CatalogueUseCase) : ViewModel() {
 
-    fun getFavoredTvShows(): LiveData<PagedList<TvShowEntity>> =
-        catalogueRepository.getFavoredTvShows()
+    val favoriteTvShow = catalogueUseCase.getFavoredTvShows()
 }

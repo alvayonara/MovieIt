@@ -3,12 +3,10 @@ package com.alvayonara.movieit.ui.tvshow
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alvayonara.movieit.BuildConfig
 import com.alvayonara.movieit.R
-import com.alvayonara.movieit.data.source.local.entity.TvShowEntity
+import com.alvayonara.movieit.domain.model.TvShow
 import com.alvayonara.movieit.ui.movie.MovieAdapter
 import com.alvayonara.movieit.ui.tvshow.DetailTvShowActivity.Companion.EXTRA_TV_SHOW_ID
 import com.bumptech.glide.Glide
@@ -18,19 +16,20 @@ import kotlinx.android.synthetic.main.item_row_tv_show_horizontal.view.*
 import org.jetbrains.anko.startActivity
 
 class TvShowAdapter constructor(private val typeView: Int) :
-    PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHolder>(DIFF_CALLBACK) {
+    RecyclerView.Adapter<TvShowAdapter.TvShowViewHolder>() {
+
+    private var listTvShows = ArrayList<TvShow>()
+
+    fun setTvShows(tvShows: List<TvShow>?) {
+        if (tvShows == null) return
+        listTvShows.clear()
+        listTvShows.addAll(tvShows)
+        notifyDataSetChanged()
+    }
 
     companion object {
         const val TYPE_LIST = 1
         const val TYPE_GRID = 2
-
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShowEntity>() {
-            override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean =
-                oldItem.tvShowId == newItem.tvShowId
-
-            override fun areContentsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean =
-                oldItem == newItem
-        }
     }
 
     override fun onCreateViewHolder(
@@ -56,15 +55,14 @@ class TvShowAdapter constructor(private val typeView: Int) :
         }
     }
 
+    override fun getItemCount(): Int = listTvShows.size
+
     override fun onBindViewHolder(holder: TvShowViewHolder, position: Int) {
-        val course = getItem(position)
-        if (course != null) {
-            holder.bindItem(course, typeView)
-        }
+        holder.bindItem(listTvShows[position], typeView)
     }
 
     class TvShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItem(tvShow: TvShowEntity, typeView: Int) {
+        fun bindItem(tvShow: TvShow, typeView: Int) {
             with(itemView) {
                 when (typeView) {
                     TYPE_LIST -> {

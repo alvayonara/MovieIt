@@ -6,29 +6,31 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.alvayonara.movieit.data.CatalogueRepository
 import com.alvayonara.movieit.data.source.local.entity.TvShowEntity
+import com.alvayonara.movieit.domain.model.TvShow
+import com.alvayonara.movieit.domain.usecase.CatalogueUseCase
 import com.alvayonara.movieit.vo.Resource
 
-class DetailTvShowViewModel(private val catalogueRepository: CatalogueRepository) : ViewModel() {
+class DetailTvShowViewModel(private val catalogueUseCase: CatalogueUseCase) : ViewModel() {
     val tvShowId = MutableLiveData<String>()
 
     fun setSelectedTvShow(tvShowId: String) {
         this.tvShowId.value = tvShowId
     }
 
-    var tvShowDetail: LiveData<Resource<TvShowEntity>> =
-        Transformations.switchMap(tvShowId) { mTvShowId ->
-            catalogueRepository.getTvShowById(mTvShowId)
+    var tvShowDetail: LiveData<Resource<TvShow>> =
+        Transformations.switchMap(tvShowId) {
+            catalogueUseCase.getTvShowById(it)
         }
 
     fun setFavoriteTvShow() {
         val tvShowDetailResource = tvShowDetail.value
         if (tvShowDetailResource != null) {
-            val tvShowEntity = tvShowDetailResource.data
+            val tvShow = tvShowDetailResource.data
 
-            if (tvShowEntity != null) {
-                val newState = !tvShowEntity.favored
+            if (tvShow != null) {
+                val newState = !tvShow.favored
 
-                catalogueRepository.setTvShowFavorite(tvShowEntity, newState)
+                catalogueUseCase.setTvShowFavorite(tvShow, newState)
             }
         }
     }

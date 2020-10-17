@@ -4,31 +4,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.alvayonara.movieit.data.CatalogueRepository
-import com.alvayonara.movieit.data.source.local.entity.MovieEntity
+import com.alvayonara.movieit.domain.model.Movie
+import com.alvayonara.movieit.domain.usecase.CatalogueUseCase
 import com.alvayonara.movieit.vo.Resource
 
-class DetailMovieViewModel(private val catalogueRepository: CatalogueRepository) : ViewModel() {
+class DetailMovieViewModel(private val catalogueUseCase: CatalogueUseCase) : ViewModel() {
     val movieId = MutableLiveData<String>()
 
     fun setSelectedMovie(movieId: String) {
         this.movieId.value = movieId
     }
 
-    var movieDetail: LiveData<Resource<MovieEntity>> =
-        Transformations.switchMap(movieId) { mMovieId ->
-            catalogueRepository.getMovieById(mMovieId)
+    var movieDetail: LiveData<Resource<Movie>> =
+        Transformations.switchMap(movieId) {
+            catalogueUseCase.getMovieById(it)
         }
 
     fun setFavoriteMovie() {
         val movieDetailResource = movieDetail.value
         if (movieDetailResource != null) {
-            val movieEntity = movieDetailResource.data
+            val movie = movieDetailResource.data
 
-            if (movieEntity != null) {
-                val newState = !movieEntity.favored
+            if (movie != null) {
+                val newState = !movie.favored
 
-                catalogueRepository.setMovieFavorite(movieEntity, newState)
+                catalogueUseCase.setMovieFavorite(movie, newState)
             }
         }
     }

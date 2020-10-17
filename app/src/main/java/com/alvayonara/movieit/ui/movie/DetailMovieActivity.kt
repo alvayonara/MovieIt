@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.movieit.BuildConfig
 import com.alvayonara.movieit.R
 import com.alvayonara.movieit.data.source.local.entity.MovieEntity
+import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.utils.DateConvert
 import com.alvayonara.movieit.utils.ToolbarConfig
 import com.alvayonara.movieit.utils.invisible
@@ -82,23 +83,25 @@ class DetailMovieActivity : AppCompatActivity() {
         ToolbarConfig.setLightStatusBar(this)
     }
 
-    private fun populateMovie(movie: MovieEntity) {
-        title_movie_detail.text = movie.title
-        rating_movie.rating = movie.averageVote!!.toFloat() / 2
-        vote_average_movie_detail.text = movie.averageVote
-        release_date_movie_detail.text = DateConvert.convertDate(movie.releaseDate)
-        overview_movie_detail.text = movie.overview
-        popularity_movie_detail.text = movie.popularity
-        original_title_movie_detail.text = movie.originalTitle
-        original_language_movie_detail.text = movie.originalLanguage
-        vote_count_movie_detail.text = movie.voteCount
+    private fun populateMovie(movie: Movie?) {
+        movie?.let {
+            title_movie_detail.text = it.title
+            rating_movie.rating = it.averageVote.toFloat() / 2
+            vote_average_movie_detail.text = it.averageVote
+            release_date_movie_detail.text = DateConvert.convertDate(it.releaseDate)
+            overview_movie_detail.text = it.overview
+            popularity_movie_detail.text = it.popularity
+            original_title_movie_detail.text = it.originalTitle
+            original_language_movie_detail.text = it.originalLanguage
+            vote_count_movie_detail.text = it.voteCount
 
-        Glide.with(this)
-            .load(BuildConfig.BASE_URL_TMDB_POSTER + movie.posterPath)
-            .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-            .into(
-                poster_movie_detail
-            )
+            Glide.with(this)
+                .load(BuildConfig.BASE_URL_TMDB_POSTER + it.posterPath)
+                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
+                .into(
+                    poster_movie_detail
+                )
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

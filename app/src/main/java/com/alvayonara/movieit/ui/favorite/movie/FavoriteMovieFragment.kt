@@ -1,6 +1,7 @@
 package com.alvayonara.movieit.ui.favorite.movie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,12 +45,12 @@ class FavoriteMovieFragment : Fragment() {
 
         progress_bar_movie_favorite.visible()
 
-        viewModel.getFavoredMovies().observe(viewLifecycleOwner, Observer { movies ->
+        viewModel.favoriteMovies.observe(viewLifecycleOwner, Observer { movies ->
             progress_bar_movie_favorite.invisible()
 
             if (movies.isNotEmpty()) {
-                movieAdapter.submitList(movies)
-                movieAdapter.notifyDataSetChanged()
+                Log.d("newfav", movies.toString())
+                movieAdapter.setMovies(movies)
             } else {
                 lyt_empty_movie_favorite.visible()
             }

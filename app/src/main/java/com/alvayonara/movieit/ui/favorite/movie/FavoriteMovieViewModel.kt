@@ -1,13 +1,9 @@
 package com.alvayonara.movieit.ui.favorite.movie
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.PagedList
-import com.alvayonara.movieit.data.CatalogueRepository
-import com.alvayonara.movieit.data.source.local.entity.MovieEntity
+import com.alvayonara.movieit.domain.usecase.CatalogueUseCase
 
-class FavoriteMovieViewModel(private val catalogueRepository: CatalogueRepository) : ViewModel() {
+class FavoriteMovieViewModel(catalogueUseCase: CatalogueUseCase) : ViewModel() {
 
-    fun getFavoredMovies(): LiveData<PagedList<MovieEntity>> =
-        catalogueRepository.getFavoredMovies()
+    val favoriteMovies = catalogueUseCase.getFavoredMovies()
 }

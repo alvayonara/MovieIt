@@ -43,7 +43,7 @@ class MovieActivity : AppCompatActivity() {
     private fun initView(viewModel: MovieViewModel) {
         val movieAdapter = MovieAdapter(MovieAdapter.TYPE_LIST)
 
-        viewModel.getMovies().observe(this, Observer { movies ->
+        viewModel.movies.observe(this, Observer { movies ->
             if (movies != null) {
                 when (movies.status) {
                     Status.LOADING -> {
@@ -51,8 +51,7 @@ class MovieActivity : AppCompatActivity() {
                     }
                     Status.SUCCESS -> {
                         progress_bar_movie.invisible()
-                        movieAdapter.submitList(movies.data)
-                        movieAdapter.notifyDataSetChanged()
+                        movieAdapter.setMovies(movies.data)
                     }
                     Status.ERROR -> {
                         progress_bar_movie.invisible()

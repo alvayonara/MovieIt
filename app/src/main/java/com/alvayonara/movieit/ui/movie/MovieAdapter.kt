@@ -3,12 +3,10 @@ package com.alvayonara.movieit.ui.movie
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alvayonara.movieit.BuildConfig
 import com.alvayonara.movieit.R
-import com.alvayonara.movieit.data.source.local.entity.MovieEntity
+import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.ui.movie.DetailMovieActivity.Companion.EXTRA_MOVIE_ID
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,21 +15,20 @@ import kotlinx.android.synthetic.main.item_row_movie_horizontal.view.*
 import org.jetbrains.anko.startActivity
 
 class MovieAdapter constructor(private val typeView: Int) :
-    PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(DIFF_CALLBACK) {
+    RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    private val dataMovie = arrayListOf<MovieEntity>()
+    private var listMovies = ArrayList<Movie>()
 
     companion object {
         const val TYPE_LIST = 1
         const val TYPE_GRID = 2
+    }
 
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
-            override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
-                oldItem.movieId == newItem.movieId
-
-            override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
-                oldItem == newItem
-        }
+    fun setMovies(movies: List<Movie>?) {
+        if (movies == null) return
+        listMovies.clear()
+        listMovies.addAll(movies)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(
@@ -57,15 +54,13 @@ class MovieAdapter constructor(private val typeView: Int) :
         }
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val course = getItem(position)
-        if (course != null) {
-            holder.bindItem(course, typeView)
-        }
-    }
+    override fun getItemCount(): Int = listMovies.size
+
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) =
+        holder.bindItem(listMovies[position], typeView)
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItem(movie: MovieEntity, typeView: Int) {
+        fun bindItem(movie: Movie, typeView: Int) {
             with(itemView) {
                 when (typeView) {
                     TYPE_LIST -> {

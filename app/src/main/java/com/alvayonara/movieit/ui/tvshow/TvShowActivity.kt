@@ -45,14 +45,13 @@ class TvShowActivity : AppCompatActivity() {
     private fun initView(viewModel: TvShowViewModel) {
         val tvShowAdapter = TvShowAdapter(TvShowAdapter.TYPE_LIST)
 
-        viewModel.getTvShows().observe(this, Observer { tvShows ->
+        viewModel.tvShows.observe(this, Observer { tvShows ->
             if (tvShows != null) {
                 when (tvShows.status) {
                     Status.LOADING -> progress_bar_tv_show.visible()
                     Status.SUCCESS -> {
                         progress_bar_tv_show.invisible()
-                        tvShowAdapter.submitList(tvShows.data)
-                        tvShowAdapter.notifyDataSetChanged()
+                        tvShowAdapter.setTvShows(tvShows.data)
                     }
                     Status.ERROR -> {
                         progress_bar_tv_show.invisible()
