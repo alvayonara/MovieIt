@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.movieit.R
+import com.alvayonara.movieit.data.Resource
 import com.alvayonara.movieit.utils.*
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_movie.*
@@ -42,14 +43,14 @@ class MovieActivity : AppCompatActivity() {
 
         viewModel.movies.observe(this, Observer {
             if (it != null) {
-                when (it.status) {
-                    Status.LOADING -> progress_bar_movie.visible()
-                    Status.SUCCESS -> {
-                        progress_bar_movie.gone()
+                when (it) {
+                    is Resource.Loading -> progress_bar_movie.visible()
+                    is Resource.Success -> {
+                        progress_bar_movie.invisible()
                         movieAdapter.setMovies(it.data)
                     }
-                    Status.ERROR -> {
-                        progress_bar_movie.gone()
+                    is Resource.Error -> {
+                        progress_bar_movie.invisible()
                         Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_SHORT)
                             .show()
                     }

@@ -48,11 +48,8 @@ class FavoriteMovieFragment : Fragment() {
         viewModel.favoriteMovies.observe(viewLifecycleOwner, Observer {
             progress_bar_movie_favorite.invisible()
 
-            if (it.isNotEmpty()) {
-                movieAdapter.setMovies(it)
-            } else {
-                lyt_empty_movie_favorite.visible()
-            }
+            movieAdapter.setMovies(it)
+            lyt_empty_movie_favorite.visibility = if (it.isNotEmpty()) View.GONE else View.VISIBLE
         })
 
         with(rv_movie_favorite) {
@@ -60,10 +57,5 @@ class FavoriteMovieFragment : Fragment() {
             setHasFixedSize(true)
             adapter = movieAdapter
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        initView(viewModel)
     }
 }

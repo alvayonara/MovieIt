@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.movieit.R
+import com.alvayonara.movieit.data.Resource
 import com.alvayonara.movieit.ui.movie.MovieActivity
 import com.alvayonara.movieit.ui.movie.MovieAdapter
 import com.alvayonara.movieit.ui.movie.MovieAdapter.Companion.TYPE_GRID
@@ -66,14 +67,14 @@ class HomeFragment : Fragment() {
 
         viewModel.movies.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                when (it.status) {
-                    Status.LOADING -> progress_bar_home.visible()
-                    Status.SUCCESS -> {
-                        progress_bar_home.gone()
+                when (it) {
+                    is Resource.Loading -> progress_bar_home.visible()
+                    is Resource.Success -> {
+                        progress_bar_home.invisible()
                         movieAdapter.setMovies(it.data)
                     }
-                    Status.ERROR -> {
-                        progress_bar_home.gone()
+                    is Resource.Error -> {
+                        progress_bar_home.invisible()
                         Toast.makeText(
                             context,
                             getString(R.string.error_message),
@@ -86,7 +87,6 @@ class HomeFragment : Fragment() {
 
         with(rv_movie_horizontal) {
             layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
             adapter = movieAdapter
         }
     }
@@ -96,14 +96,16 @@ class HomeFragment : Fragment() {
 
         viewModel.tvShows.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                when (it.status) {
-                    Status.LOADING -> progress_bar_home.visible()
-                    Status.SUCCESS -> {
-                        progress_bar_home.gone()
+                when (it) {
+                    is Resource.Loading -> {
+                        progress_bar_home.visible()
+                    }
+                    is Resource.Success -> {
+                        progress_bar_home.invisible()
                         tvShowAdapter.setTvShows(it.data)
                     }
-                    Status.ERROR -> {
-                        progress_bar_home.gone()
+                    is Resource.Error -> {
+                        progress_bar_home.invisible()
                         Toast.makeText(
                             context,
                             getString(R.string.error_message),
@@ -116,7 +118,6 @@ class HomeFragment : Fragment() {
 
         with(rv_tv_show_horizontal) {
             layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
             adapter = tvShowAdapter
         }
     }

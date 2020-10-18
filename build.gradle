@@ -53,5 +53,8 @@ ext {
     loggingInterceptorVersion = '4.8.0'
 
     roomVersion = '2.2.5'
-    pagingVersion = '2.1.2'
+
+    rxjavaVersion = '2.2.19'
+    rxandroidVersion = '2.1.1'
+    lifecycleVersion = '2.2.0'
 }

@@ -1,9 +1,6 @@
 package com.alvayonara.movieit.ui.tvshow
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.alvayonara.movieit.domain.model.TvShow
 import com.alvayonara.movieit.domain.usecase.CatalogueUseCase
 import com.alvayonara.movieit.data.Resource
@@ -17,7 +14,7 @@ class DetailTvShowViewModel(private val catalogueUseCase: CatalogueUseCase) : Vi
 
     var tvShowDetail: LiveData<Resource<TvShow>> =
         Transformations.switchMap(tvShowId) {
-            catalogueUseCase.getTvShowById(it)
+            LiveDataReactiveStreams.fromPublisher(catalogueUseCase.getTvShowById(it))
         }
 
     fun setFavoriteTvShow() {

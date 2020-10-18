@@ -1,9 +1,6 @@
 package com.alvayonara.movieit.ui.movie
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.domain.usecase.CatalogueUseCase
 import com.alvayonara.movieit.data.Resource
@@ -17,7 +14,7 @@ class DetailMovieViewModel(private val catalogueUseCase: CatalogueUseCase) : Vie
 
     var movieDetail: LiveData<Resource<Movie>> =
         Transformations.switchMap(movieId) {
-            catalogueUseCase.getMovieById(it)
+            LiveDataReactiveStreams.fromPublisher(catalogueUseCase.getMovieById(it))
         }
 
     fun setFavoriteMovie() {

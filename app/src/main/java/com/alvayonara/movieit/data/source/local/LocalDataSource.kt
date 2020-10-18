@@ -1,10 +1,9 @@
 package com.alvayonara.movieit.data.source.local
 
-import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import com.alvayonara.movieit.data.source.local.entity.MovieEntity
 import com.alvayonara.movieit.data.source.local.entity.TvShowEntity
 import com.alvayonara.movieit.data.source.local.room.CatalogueDao
+import io.reactivex.Flowable
 
 class LocalDataSource private constructor(private val mCatalogueDao: CatalogueDao) {
 
@@ -18,26 +17,26 @@ class LocalDataSource private constructor(private val mCatalogueDao: CatalogueDa
             }
     }
 
-    fun getAllMovies(): LiveData<List<MovieEntity>> = mCatalogueDao.getMovies()
+    fun getAllMovies(): Flowable<List<MovieEntity>> = mCatalogueDao.getMovies()
 
-    fun getFavoredMovies(): LiveData<List<MovieEntity>> = mCatalogueDao.getFavoredMovie()
+    fun getFavoredMovies(): Flowable<List<MovieEntity>> = mCatalogueDao.getFavoredMovie()
 
     fun setMovieFavorite(movie: MovieEntity, newState: Boolean) {
         movie.favored = newState
         mCatalogueDao.updateMovie(movie)
     }
 
-    fun getMovieById(movieId: String): LiveData<MovieEntity> = mCatalogueDao.getMovieById(movieId)
+    fun getMovieById(movieId: String): Flowable<MovieEntity> = mCatalogueDao.getMovieById(movieId)
 
-    fun getMovieSearch(query: String): LiveData<List<MovieEntity>> = mCatalogueDao.getMovieSearch(query)
+    fun getMovieSearch(query: String): Flowable<List<MovieEntity>> = mCatalogueDao.getMovieSearch(query)
 
     fun insertMovies(movies: List<MovieEntity>) = mCatalogueDao.insertMovies(movies)
 
     fun updateMovie(movie: MovieEntity) = mCatalogueDao.updateMovie(movie)
 
-    fun getAllTvShows(): LiveData<List<TvShowEntity>> = mCatalogueDao.getTvShows()
+    fun getAllTvShows(): Flowable<List<TvShowEntity>> = mCatalogueDao.getTvShows()
 
-    fun getFavoredTvShows(): LiveData<List<TvShowEntity>> =
+    fun getFavoredTvShows(): Flowable<List<TvShowEntity>> =
         mCatalogueDao.getFavoredTvShow()
 
     fun setTvShowFavorite(tvShow: TvShowEntity, newState: Boolean) {
@@ -45,7 +44,7 @@ class LocalDataSource private constructor(private val mCatalogueDao: CatalogueDa
         mCatalogueDao.updateTvShow(tvShow)
     }
 
-    fun getTvShowById(tvShowId: String): LiveData<TvShowEntity> =
+    fun getTvShowById(tvShowId: String): Flowable<TvShowEntity> =
         mCatalogueDao.getTvShowById(tvShowId)
 
     fun insertTvShows(tvShows: List<TvShowEntity>) = mCatalogueDao.insertTvShows(tvShows)

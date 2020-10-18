@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.movieit.BuildConfig
 import com.alvayonara.movieit.R
+import com.alvayonara.movieit.data.Resource
 import com.alvayonara.movieit.domain.model.TvShow
 import com.alvayonara.movieit.utils.*
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
@@ -46,16 +47,16 @@ class DetailTvShowActivity : AppCompatActivity() {
 
                 viewModel.tvShowDetail.observe(this, Observer {
                     if (it != null) {
-                        when (it.status) {
-                            Status.LOADING -> progress_bar_detail_tv_show.visible()
-                            Status.SUCCESS -> {
+                        when (it) {
+                            is Resource.Loading -> progress_bar_detail_tv_show.visible()
+                            is Resource.Success -> {
                                 if (it.data != null) {
-                                    progress_bar_detail_tv_show.gone()
+                                    progress_bar_detail_tv_show.invisible()
                                     populateTvShow(it.data)
                                 }
                             }
-                            Status.ERROR -> {
-                                progress_bar_detail_tv_show.gone()
+                            is Resource.Error -> {
+                                progress_bar_detail_tv_show.invisible()
                                 Toast.makeText(
                                     this,
                                     getString(R.string.error_message),
@@ -118,16 +119,16 @@ class DetailTvShowActivity : AppCompatActivity() {
         this.menu = menu
         viewModel.tvShowDetail.observe(this, Observer {
             if (it != null) {
-                when (it.status) {
-                    Status.LOADING -> progress_bar_detail_tv_show.visible()
-                    Status.SUCCESS -> {
+                when (it) {
+                    is Resource.Loading -> progress_bar_detail_tv_show.visible()
+                    is Resource.Success -> {
                         if (it.data != null) {
-                            progress_bar_detail_tv_show.gone()
+                            progress_bar_detail_tv_show.invisible()
                             val state = it.data.favored
                             setFavoriteState(state)
                         }
                     }
-                    Status.ERROR -> Toast.makeText(
+                    is Resource.Error -> Toast.makeText(
                         this,
                         getString(R.string.error_message),
                         Toast.LENGTH_SHORT

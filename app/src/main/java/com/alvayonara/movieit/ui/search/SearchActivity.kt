@@ -16,13 +16,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvayonara.movieit.R
+import com.alvayonara.movieit.data.Resource
 import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.utils.ToolbarConfig
 import com.alvayonara.movieit.utils.gone
 import com.alvayonara.movieit.utils.invisible
 import com.alvayonara.movieit.utils.visible
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
-import com.alvayonara.movieit.utils.Status
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {
@@ -124,13 +124,13 @@ class SearchActivity : AppCompatActivity() {
         query = edt_search.text.toString().trim()
         if (query != "") {
             viewModel.getMovieSearch("%$query%").observe(this, Observer {
-                when (it.status) {
-                    Status.LOADING -> {
+                when (it) {
+                    is Resource.Loading -> {
                         lyt_search.gone()
                         lyt_not_found_search.gone()
                         progress_bar_movie_search.visible()
                     }
-                    Status.SUCCESS -> {
+                    is Resource.Success -> {
                         progress_bar_movie_search.invisible()
 
                         if (it.data!!.isEmpty()) {
@@ -140,7 +140,7 @@ class SearchActivity : AppCompatActivity() {
                             searchAdapter.setMovies(it.data)
                         }
                     }
-                    Status.ERROR -> {
+                    is Resource.Error -> {
                         progress_bar_movie_search.invisible()
                         Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_SHORT)
                             .show()

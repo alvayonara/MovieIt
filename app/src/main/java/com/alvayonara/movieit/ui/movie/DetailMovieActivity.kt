@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alvayonara.movieit.BuildConfig
 import com.alvayonara.movieit.R
+import com.alvayonara.movieit.data.Resource
 import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.utils.*
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
@@ -46,16 +47,16 @@ class DetailMovieActivity : AppCompatActivity() {
 
                 viewModel.movieDetail.observe(this, Observer {
                     if (it != null) {
-                        when (it.status) {
-                            Status.LOADING -> progress_bar_detail_movie.visible()
-                            Status.SUCCESS -> {
+                        when (it) {
+                            is Resource.Loading -> progress_bar_detail_movie.visible()
+                            is Resource.Success -> {
                                 if (it.data != null) {
-                                    progress_bar_detail_movie.gone()
+                                    progress_bar_detail_movie.invisible()
                                     populateMovie(it.data)
                                 }
                             }
-                            Status.ERROR -> {
-                                progress_bar_detail_movie.gone()
+                            is Resource.Error -> {
+                                progress_bar_detail_movie.invisible()
                                 Toast.makeText(
                                     this,
                                     getString(R.string.error_message),
@@ -118,16 +119,16 @@ class DetailMovieActivity : AppCompatActivity() {
         this.menu = menu
         viewModel.movieDetail.observe(this, Observer {
             if (it != null) {
-                when (it.status) {
-                    Status.LOADING -> progress_bar_detail_movie.visible()
-                    Status.SUCCESS -> {
+                when (it) {
+                    is Resource.Loading -> progress_bar_detail_movie.visible()
+                    is Resource.Success -> {
                         if (it.data != null) {
-                            progress_bar_detail_movie.gone()
+                            progress_bar_detail_movie.invisible()
                             val state = it.data.favored
                             setFavoriteState(state)
                         }
                     }
-                    Status.ERROR -> Toast.makeText(
+                    is Resource.Error -> Toast.makeText(
                             this,
                             getString(R.string.error_message),
                             Toast.LENGTH_SHORT

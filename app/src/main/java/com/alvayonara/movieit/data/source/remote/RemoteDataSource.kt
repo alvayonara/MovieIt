@@ -1,15 +1,16 @@
 package com.alvayonara.movieit.data.source.remote
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.annotation.SuppressLint
 import com.alvayonara.movieit.BuildConfig
 import com.alvayonara.movieit.data.source.remote.network.ApiResponse
 import com.alvayonara.movieit.data.source.remote.network.ApiService
-import com.alvayonara.movieit.data.source.remote.response.*
-import com.alvayonara.movieit.utils.EspressoIdlingResource
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.alvayonara.movieit.data.source.remote.response.MovieResponse
+import com.alvayonara.movieit.data.source.remote.response.TvShowResponse
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 
 class RemoteDataSource private constructor(private val apiService: ApiService) {
 
@@ -26,135 +27,101 @@ class RemoteDataSource private constructor(private val apiService: ApiService) {
             }
     }
 
-    fun getAllMovies(): LiveData<ApiResponse<List<MovieResponse>>> {
-        EspressoIdlingResource.increment()
-        val movieResults = MutableLiveData<ApiResponse<List<MovieResponse>>>()
+    @SuppressLint("CheckResult")
+    fun getAllMovies(): Flowable<ApiResponse<List<MovieResponse>>> {
+        val movieResults = PublishSubject.create<ApiResponse<List<MovieResponse>>>()
 
         val client = apiService.getMovies(BuildConfig.TMDB_API_KEY, LANGUAGE)
 
-        client.enqueue(object :
-            Callback<ListMovieResponse> {
-            override fun onFailure(call: Call<ListMovieResponse>, t: Throwable) {
-                movieResults.value = ApiResponse.Error(t.message.toString())
-            }
+        client
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .take(1)
+            .subscribe({ response ->
+                val dataArray = response.movies
+                movieResults.onNext(if (dataArray.isNotEmpty()) ApiResponse.Success(dataArray) else ApiResponse.Empty)
+            }, { error ->
+                movieResults.onNext(ApiResponse.Error(error.message.toString()))
+            })
 
-            override fun onResponse(
-                call: Call<ListMovieResponse>,
-                response: Response<ListMovieResponse>
-            ) {
-                val dataArray = response.body()?.movies
-                movieResults.value =
-                    if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
-            }
-        })
-        EspressoIdlingResource.decrement()
-
-        return movieResults
+        return movieResults.toFlowable(BackpressureStrategy.BUFFER)
     }
 
-    fun getMovieById(movieId: String): LiveData<ApiResponse<MovieResponse>> {
-        EspressoIdlingResource.increment()
-        val movieResult = MutableLiveData<ApiResponse<MovieResponse>>()
+    @SuppressLint("CheckResult")
+    fun getMovieById(movieId: String): Flowable<ApiResponse<MovieResponse>> {
+        val movieResult = PublishSubject.create<ApiResponse<MovieResponse>>()
 
         val client = apiService.getMovieById(movieId, BuildConfig.TMDB_API_KEY, LANGUAGE)
 
-        client.enqueue(object : Callback<MovieResponse> {
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                movieResult.value = ApiResponse.Error(t.message.toString())
-            }
+        client
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .take(1)
+            .subscribe({ response ->
+                movieResult.onNext(if (response != null) ApiResponse.Success(response) else ApiResponse.Empty)
+            }, { error ->
+                movieResult.onNext(ApiResponse.Error(error.message.toString()))
+            })
 
-            override fun onResponse(
-                call: Call<MovieResponse>,
-                response: Response<MovieResponse>
-            ) {
-                val data = response.body()
-                movieResult.value =
-                    if (data != null) ApiResponse.Success(data) else ApiResponse.Empty
-            }
-        })
-        EspressoIdlingResource.decrement()
-
-        return movieResult
+        return movieResult.toFlowable(BackpressureStrategy.BUFFER)
     }
 
-    fun getAllTvShows(): LiveData<ApiResponse<List<TvShowResponse>>> {
-        EspressoIdlingResource.increment()
-        val tvShowResults = MutableLiveData<ApiResponse<List<TvShowResponse>>>()
+    @SuppressLint("CheckResult")
+    fun getAllTvShows(): Flowable<ApiResponse<List<TvShowResponse>>> {
+        val tvShowResults = PublishSubject.create<ApiResponse<List<TvShowResponse>>>()
 
         val client = apiService.getTvShows(BuildConfig.TMDB_API_KEY, LANGUAGE)
 
         client
-            .enqueue(object : Callback<ListTvShowResponse> {
-                override fun onFailure(call: Call<ListTvShowResponse>, t: Throwable) {
-                    tvShowResults.value = ApiResponse.Error(t.message.toString())
-                }
-
-                override fun onResponse(
-                    call: Call<ListTvShowResponse>,
-                    response: Response<ListTvShowResponse>
-                ) {
-                    val dataArray = response.body()?.tvShows
-                    tvShowResults.value =
-                        if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
-                }
-
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .take(1)
+            .subscribe({ response ->
+                val dataArray = response.tvShows
+                tvShowResults.onNext(if (dataArray.isNotEmpty()) ApiResponse.Success(dataArray) else ApiResponse.Empty)
+            }, { error ->
+                tvShowResults.onNext(ApiResponse.Error(error.message.toString()))
             })
-        EspressoIdlingResource.decrement()
 
-        return tvShowResults
+        return tvShowResults.toFlowable(BackpressureStrategy.BUFFER)
     }
 
-    fun getTvShowById(tvShowId: String): LiveData<ApiResponse<TvShowResponse>> {
-        EspressoIdlingResource.increment()
-        val tvShowResult = MutableLiveData<ApiResponse<TvShowResponse>>()
+    @SuppressLint("CheckResult")
+    fun getTvShowById(tvShowId: String): Flowable<ApiResponse<TvShowResponse>> {
+        val tvShowResult = PublishSubject.create<ApiResponse<TvShowResponse>>()
 
         val client = apiService.getTvShowById(tvShowId, BuildConfig.TMDB_API_KEY, LANGUAGE)
 
         client
-            .enqueue(object : Callback<TvShowResponse> {
-                override fun onFailure(call: Call<TvShowResponse>, t: Throwable) {
-                    tvShowResult.value = ApiResponse.Error(t.message.toString())
-                }
-
-                override fun onResponse(
-                    call: Call<TvShowResponse>,
-                    response: Response<TvShowResponse>
-                ) {
-                    val data = response.body()
-                    tvShowResult.value =
-                        if (data != null) ApiResponse.Success(data) else ApiResponse.Empty
-                }
-
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .take(1)
+            .subscribe({ response ->
+                tvShowResult.onNext(if (response != null) ApiResponse.Success(response) else ApiResponse.Empty)
+            }, { error ->
+                tvShowResult.onNext(ApiResponse.Error(error.message.toString()))
             })
-        EspressoIdlingResource.decrement()
 
-        return tvShowResult
+        return tvShowResult.toFlowable(BackpressureStrategy.BUFFER)
     }
 
-    fun getMovieSearch(query: String): LiveData<ApiResponse<List<MovieResponse>>> {
-        EspressoIdlingResource.increment()
-        val movieResults = MutableLiveData<ApiResponse<List<MovieResponse>>>()
+    @SuppressLint("CheckResult")
+    fun getMovieSearch(query: String): Flowable<ApiResponse<List<MovieResponse>>> {
+        val movieResults = PublishSubject.create<ApiResponse<List<MovieResponse>>>()
 
         val client = apiService.getMovieSearch(BuildConfig.TMDB_API_KEY, LANGUAGE, query)
 
         client
-            .enqueue(object : Callback<ListMovieResponse> {
-                override fun onFailure(call: Call<ListMovieResponse>, t: Throwable) {
-                    movieResults.value = ApiResponse.Error(t.message.toString())
-                }
-
-                override fun onResponse(
-                    call: Call<ListMovieResponse>,
-                    response: Response<ListMovieResponse>
-                ) {
-                    val dataArray = response.body()?.movies
-                    movieResults.value =
-                        if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
-                }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .take(1)
+            .subscribe({ response ->
+                val dataArray = response.movies
+                movieResults.onNext(if (dataArray.isNotEmpty()) ApiResponse.Success(dataArray) else ApiResponse.Empty)
+            }, { error ->
+                movieResults.onNext(ApiResponse.Error(error.message.toString()))
             })
 
-        EspressoIdlingResource.decrement()
-
-        return movieResults
+        return movieResults.toFlowable(BackpressureStrategy.BUFFER)
     }
 }

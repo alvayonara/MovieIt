@@ -14,6 +14,7 @@ import com.alvayonara.movieit.ui.tvshow.TvShowAdapter.Companion.TYPE_LIST
 import com.alvayonara.movieit.utils.invisible
 import com.alvayonara.movieit.utils.visible
 import com.alvayonara.movieit.viewmodel.ViewModelFactory
+import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 import kotlinx.android.synthetic.main.fragment_favorite_tv_show.*
 import org.jetbrains.anko.support.v4.ctx
 
@@ -47,12 +48,8 @@ class FavoriteTvShowFragment : Fragment() {
         viewModel.favoriteTvShow.observe(viewLifecycleOwner, Observer {
             progress_bar_tv_show_favorite.invisible()
 
-            if (it.isNotEmpty()){
-                tvShowAdapter.setTvShows(it)
-                tvShowAdapter.notifyDataSetChanged()
-            } else {
-                lyt_empty_tv_show_favorite.visible()
-            }
+            tvShowAdapter.setTvShows(it)
+            lyt_empty_tv_show_favorite.visibility = if (it.isNotEmpty()) View.GONE else View.VISIBLE
         })
 
         with(rv_tv_show_favorite) {

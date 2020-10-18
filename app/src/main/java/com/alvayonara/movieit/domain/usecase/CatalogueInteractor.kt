@@ -1,37 +1,37 @@
 package com.alvayonara.movieit.domain.usecase
 
-import androidx.lifecycle.LiveData
+import com.alvayonara.movieit.data.Resource
 import com.alvayonara.movieit.domain.model.Movie
 import com.alvayonara.movieit.domain.model.TvShow
 import com.alvayonara.movieit.domain.repository.ICatalogueRepository
-import com.alvayonara.movieit.data.Resource
+import io.reactivex.Flowable
 
 class CatalogueInteractor(private val catalogueRepository: ICatalogueRepository) :
     CatalogueUseCase {
 
-    override fun getAllMovies(): LiveData<Resource<List<Movie>>> =
+    override fun getAllMovies(): Flowable<Resource<List<Movie>>> =
         catalogueRepository.getAllMovies()
 
-    override fun getMovieById(movieId: String): LiveData<Resource<Movie>> =
+    override fun getMovieById(movieId: String): Flowable<Resource<Movie>> =
         catalogueRepository.getMovieById(movieId)
 
-    override fun getFavoredMovies(): LiveData<List<Movie>> = catalogueRepository.getFavoredMovies()
+    override fun getFavoredMovies(): Flowable<List<Movie>> = catalogueRepository.getFavoredMovies()
 
     override fun setMovieFavorite(movie: Movie, state: Boolean) =
         catalogueRepository.setMovieFavorite(movie, state)
 
-    override fun getAllTvShows(): LiveData<Resource<List<TvShow>>> =
+    override fun getAllTvShows(): Flowable<Resource<List<TvShow>>> =
         catalogueRepository.getAllTvShows()
 
-    override fun getTvShowById(tvShowId: String): LiveData<Resource<TvShow>> =
+    override fun getTvShowById(tvShowId: String): Flowable<Resource<TvShow>> =
         catalogueRepository.getTvShowById(tvShowId)
 
-    override fun getFavoredTvShows(): LiveData<List<TvShow>> =
+    override fun getFavoredTvShows(): Flowable<List<TvShow>> =
         catalogueRepository.getFavoredTvShows()
 
     override fun setTvShowFavorite(tvShow: TvShow, state: Boolean) =
         catalogueRepository.setTvShowFavorite(tvShow, state)
 
-    override fun getMovieSearch(query: String): LiveData<Resource<List<Movie>>> =
+    override fun getMovieSearch(query: String): Flowable<Resource<List<Movie>>> =
         catalogueRepository.getMovieSearch(query)
 }
