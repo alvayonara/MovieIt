@@ -68,13 +68,13 @@ class HomeFragment : Fragment() {
         viewModel.movies.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 when (it) {
-                    is Resource.Loading -> progress_bar_home.visible()
+                    is Resource.Loading -> progress_bar_home_movie.visible()
                     is Resource.Success -> {
-                        progress_bar_home.invisible()
+                        progress_bar_home_movie.invisible()
                         movieAdapter.setMovies(it.data)
                     }
                     is Resource.Error -> {
-                        progress_bar_home.invisible()
+                        progress_bar_home_movie.invisible()
                         Toast.makeText(
                             context,
                             getString(R.string.error_message),
@@ -87,6 +87,7 @@ class HomeFragment : Fragment() {
 
         with(rv_movie_horizontal) {
             layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
             adapter = movieAdapter
         }
     }
@@ -98,14 +99,14 @@ class HomeFragment : Fragment() {
             if (it != null) {
                 when (it) {
                     is Resource.Loading -> {
-                        progress_bar_home.visible()
+                        progress_bar_home_tv_show.visible()
                     }
                     is Resource.Success -> {
-                        progress_bar_home.invisible()
+                        progress_bar_home_tv_show.invisible()
                         tvShowAdapter.setTvShows(it.data)
                     }
                     is Resource.Error -> {
-                        progress_bar_home.invisible()
+                        progress_bar_home_tv_show.invisible()
                         Toast.makeText(
                             context,
                             getString(R.string.error_message),
@@ -118,6 +119,7 @@ class HomeFragment : Fragment() {
 
         with(rv_tv_show_horizontal) {
             layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
             adapter = tvShowAdapter
         }
     }
